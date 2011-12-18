@@ -26,11 +26,11 @@
 // to the rt, compiler and dynamic linker for running small functions
 // FIXME: We want this to be 128 but need to slim the red zone calls down
 #ifdef __i386__
-#define RED_ZONE_SIZE (65536 + STACK_NOACCESS_SIZE)
+#define RED_ZONE_SIZE (1024 * 10 + STACK_NOACCESS_SIZE)
 #endif
 
 #ifdef __x86_64__
-#define RED_ZONE_SIZE (65536 + STACK_NOACCESS_SIZE)
+#define RED_ZONE_SIZE (1024 * 10 + STACK_NOACCESS_SIZE)
 #endif
 
 // Stack size
@@ -365,6 +365,9 @@ rust_task::yield(size_t time_in_us, bool *killed) {
     if (this->killed) {
         *killed = true;
     }
+
+    // We're not going to need any extra stack for a while
+    clear_stack_cache();
 
     yield_timer.reset_us(time_in_us);
 
@@ -705,6 +708,15 @@ void
 rust_task::del_stack() {
     del_stk(this, stk);
     record_stack_limit();
+}
+
+void
+rust_task::clear_stack_cache() {
+    A(sched, stk != NULL, "Expected to have a stack");
+    if (stk->prev != NULL) {
+        free_stk(this, stk->prev);
+        stk->prev = NULL;
+    }
 }
 
 void
