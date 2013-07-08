@@ -8,11 +8,15 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use cell::Cell;
 use uint;
 use option::{Some, None};
+use cell::Cell;
+use clone::Clone;
+use container::Container;
+use iterator::IteratorUtil;
+use vec::{OwnedVector, MutableVector};
+use super::io::net::ip::{IpAddr, Ipv4, Ipv6};
 use rt::sched::Scheduler;
-use super::io::net::ip::{IpAddr, Ipv4};
 use rt::local::Local;
 use unstable::run_in_bare_thread;
 use rt::thread::Thread;
@@ -323,9 +327,14 @@ pub fn next_test_port() -> u16 {
     }
 }
 
-/// Get a unique localhost:port pair starting at 9600
+/// Get a unique IPv4 localhost:port pair starting at 9600
 pub fn next_test_ip4() -> IpAddr {
     Ipv4(127, 0, 0, 1, next_test_port())
+}
+
+/// Get a unique IPv6 localhost:port pair starting at 9600
+pub fn next_test_ip6() -> IpAddr {
+    Ipv6(0, 0, 0, 0, 0, 0, 0, 1, next_test_port())
 }
 
 /// Get a constant that represents the number of times to repeat
