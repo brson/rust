@@ -287,7 +287,10 @@ impl<T> Drop for PortOneHack<T> {
                     let _packet: ~Packet<T> = cast::transmute(this.void_packet);
                 }
                 _ => {
-                    util::unreachable()
+                    // This case occurs during unwinding, when the blocked
+                    // receiver was killed awake. The send-end will free it.
+                    // It sure would be nice if we could assert the task is
+                    // failing, but that would need a fragile local borrow.
                 }
             }
         }
