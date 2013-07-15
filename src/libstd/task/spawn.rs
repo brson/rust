@@ -175,7 +175,6 @@ struct AncestorNode {
     // circular references arise, deadlock and memory leaks are imminent).
     // Hence we assert that this counter monotonically decreases as we
     // approach the tail of the list.
-    // FIXME(#3068): Make the generation counter togglable with #[cfg(debug)].
     generation:     uint,
     // Handle to the tasks in the group of the current generation.
     parent_group:   TaskGroupArc,
@@ -200,6 +199,18 @@ fn access_ancestors<U>(x: &Exclusive<AncestorNode>,
         x.with(blk)
     }
 }
+
+#[inline] #[cfg(test)]
+fn check_generation(younger: uint, older: uint) { assert!(younger > older); }
+#[inline] #[cfg(not(test))]
+fn check_generation(_younger: uint, _older: uint) { }
+
+#[inline] #[cfg(test)]
+fn incr_generation(ancestors: &AncestorList) -> uint {
+    ancestors.map_default(0, |arc| access_ancestors(arc, |a| a.generation+1))
+}
+#[inline] #[cfg(not(test))]
+fn incr_generation(_ancestors: &AncestorList) -> uint { 0 }
 
 // Iterates over an ancestor list.
 // (1) Runs forward_blk on each ancestral taskgroup in the list
@@ -263,7 +274,7 @@ fn each_ancestor(list:        &mut AncestorList,
                 // Argh, but we couldn't give it to coalesce() otherwise.
                 let forward_blk = forward_blk.take();
                 // Check monotonicity
-                assert!(last_generation > nobe.generation);
+                check_generation(last_generation, nobe.generation);
                 /*##########################################################*
                  * Step 1: Look at this ancestor group (call iterator block).
                  *##########################################################*/
@@ -588,16 +599,7 @@ fn gen_child_taskgroup(linked: bool, supervised: bool)
                 descendants: new_taskset(),
             }));
             let a = if supervised {
-                // FIXME(#3068) - The generation counter is only used for a
-                // debug assertion, but initialising it requires locking a
-                // mutex. Hence it should be enabled only in debug builds.
-                let new_generation =
-                    match *ancestors {
-                        Some(ref arc) => {
-                            access_ancestors(arc, |a| a.generation+1)
-                        }
-                        None => 0 // the actual value doesn't really matter.
-                    };
+                let new_generation = incr_generation(&ancestors);
                 assert!(new_generation < uint::max_value);
                 // Child's ancestors start with the spawner.
                 // Build a new node in the ancestor list.
@@ -704,8 +706,7 @@ fn spawn_raw_oldsched(mut opts: TaskOpts, f: ~fn()) {
         let child_data = Cell::new((child_tg, ancestors, f));
         // Being killed with the unsafe task/closure pointers would leak them.
         do unkillable {
-            // Agh. Get move-mode items into the closure. FIXME (#2829)
-            let (child_tg, ancestors, f) = child_data.take();
+            let (child_tg, ancestors, f) = child_data.take(); // :(
             // Create child task.
             let new_task = match opts.sched.mode {
                 DefaultScheduler => rt::new_task(),
@@ -739,8 +740,7 @@ fn spawn_raw_oldsched(mut opts: TaskOpts, f: ~fn()) {
                        -> ~fn() {
         let child_data = Cell::new((notify_chan, child_arc, ancestors));
         let result: ~fn() = || {
-            // Agh. Get move-mode items into the closure. FIXME (#2829)
-            let (notify_chan, child_arc, ancestors) = child_data.take();
+            let (notify_chan, child_arc, ancestors) = child_data.take(); // :(
             let mut ancestors = ancestors;
             // Child task runs this code.
 
