@@ -127,21 +127,28 @@ impl IterBytes for TaskHandle {
     }
 }
 
-type TaskSet = HashSet<TaskHandle>;
+struct TaskSet(HashSet<TaskHandle>);
 
-fn new_taskset() -> TaskSet {
-    HashSet::new()
-}
-fn taskset_insert(tasks: &mut TaskSet, task: TaskHandle) {
-    let didnt_overwrite = tasks.insert(task);
-    assert!(didnt_overwrite);
-}
-fn taskset_remove(tasks: &mut TaskSet, task: &TaskHandle) {
-    let was_present = tasks.remove(task);
-    assert!(was_present);
-}
-fn taskset_consume(mut tasks: TaskSet, blk: &fn(v: TaskHandle)) {
-    tasks.consume(blk)
+impl TaskSet {
+    #[inline]
+    fn new() -> TaskSet {
+        TaskSet(HashSet::new())
+    }
+    #[inline]
+    fn insert(&mut self, task: TaskHandle) {
+        let didnt_overwrite = (**self).insert(task);
+        assert!(didnt_overwrite);
+    }
+    #[inline]
+    fn remove(&mut self, task: &TaskHandle) {
+        let was_present = (**self).remove(task);
+        assert!(was_present);
+    }
+    #[inline]
+    fn consume(self, blk: &fn(v: TaskHandle)) {
+        let mut this = self;
+        (*this).consume(blk)
+    }
 }
 
 // One of these per group of linked-failure tasks.
@@ -412,36 +419,30 @@ fn AutoNotify(chan: Chan<TaskResult>) -> AutoNotify {
 
 fn enlist_in_taskgroup(state: TaskGroupInner, me: TaskHandle,
                            is_member: bool) -> bool {
-    let newstate = util::replace(&mut *state, None);
+    let me = Cell::new(me); // :(
     // If 'None', the group was failing. Can't enlist.
-    if newstate.is_some() {
-        let mut group = newstate.unwrap();
-        taskset_insert(if is_member {
+    do state.map_mut_default(false) |group| {
+        (if is_member {
             &mut group.members
         } else {
             &mut group.descendants
-        }, me);
-        *state = Some(group);
+        }).insert(me.take());
         true
-    } else {
-        false
     }
 }
 
 // NB: Runs in destructor/post-exit context. Can't 'fail'.
 fn leave_taskgroup(state: TaskGroupInner, me: &TaskHandle,
                        is_member: bool) {
-    let newstate = util::replace(&mut *state, None);
+    let me = Cell::new(me); // :(
     // If 'None', already failing and we've already gotten a kill signal.
-    if newstate.is_some() {
-        let mut group = newstate.unwrap();
-        taskset_remove(if is_member {
+    do state.map_mut |group| {
+        (if is_member {
             &mut group.members
         } else {
             &mut group.descendants
-        }, me);
-        *state = Some(group);
-    }
+        }).remove(me.take());
+    };
 }
 
 // NB: Runs in destructor/post-exit context. Can't 'fail'.
@@ -463,13 +464,13 @@ fn kill_taskgroup(state: TaskGroupInner, me: &TaskHandle, is_main: bool) {
         if newstate.is_some() {
             let TaskGroupData { members: members, descendants: descendants } =
                 newstate.unwrap();
-            do taskset_consume(members) |sibling| {
+            do members.consume |sibling| {
                 // Skip self - killing ourself won't do much good.
                 if &sibling != me {
                     RuntimeGlue::kill_task(sibling);
                 }
             }
-            do taskset_consume(descendants) |child| {
+            do descendants.consume |child| {
                 assert!(&child != me);
                 RuntimeGlue::kill_task(child);
             }
@@ -542,11 +543,11 @@ impl RuntimeGlue {
                 let g: @@mut TCB = match local_get(OldHandle(me), taskgroup_key!()) {
                     None => {
                         // Main task, doing first spawn ever. Lazily initialise here.
-                        let mut members = new_taskset();
-                        taskset_insert(&mut members, OldTask(me));
+                        let mut members = TaskSet::new();
+                        members.insert(OldTask(me));
                         let tasks = exclusive(Some(TaskGroupData {
                             members: members,
-                            descendants: new_taskset(),
+                            descendants: TaskSet::new(),
                         }));
                         // Main task/group has no ancestors, no notifier, etc.
                         let group = @@mut TCB(tasks, AncestorList(None), true, None);
@@ -564,12 +565,12 @@ impl RuntimeGlue {
                 blk(match (*me).taskgroup {
                     None => {
                         // Main task, doing first spawn ever. Lazily initialize.
-                        let mut members = new_taskset();
+                        let mut members = TaskSet::new();
                         let my_handle = (*me).death.kill_handle.get_ref().clone();
-                        taskset_insert(&mut members, NewTask(my_handle));
+                        members.insert(NewTask(my_handle));
                         let tasks = exclusive(Some(TaskGroupData {
                             members: members,
-                            descendants: new_taskset(),
+                            descendants: TaskSet::new(),
                         }));
                         let group = TCB(tasks, AncestorList(None), true, None);
                         (*me).taskgroup = Some(group);
@@ -595,8 +596,8 @@ fn gen_child_taskgroup(linked: bool, supervised: bool)
         } else {
             // Child is in a separate group from spawner.
             let g = exclusive(Some(TaskGroupData {
-                members:     new_taskset(),
-                descendants: new_taskset(),
+                members:     TaskSet::new(),
+                descendants: TaskSet::new(),
             }));
             let a = if supervised {
                 let new_generation = incr_generation(&ancestors);
