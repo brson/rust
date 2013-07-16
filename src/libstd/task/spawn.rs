@@ -338,7 +338,7 @@ fn each_ancestor(list:        &mut AncestorList,
 }
 
 // One of these per task.
-pub struct TCB {
+pub struct Taskgroup {
     // List of tasks with whose fates this one's is intertwined.
     tasks:      TaskGroupArc, // 'none' means the group has failed.
     // Lists of tasks who will kill us if they fail, but whom we won't kill.
@@ -347,12 +347,12 @@ pub struct TCB {
     notifier:   Option<AutoNotify>,
 }
 
-impl Drop for TCB {
+impl Drop for Taskgroup {
     // Runs on task exit.
     fn drop(&self) {
         unsafe {
             // FIXME(#4330) Need self by value to get mutability.
-            let this: &mut TCB = transmute(self);
+            let this: &mut Taskgroup = transmute(self);
 
             // If we are failing, the whole taskgroup needs to die.
             do RuntimeGlue::with_task_handle_and_failing |me, failing| {
@@ -382,15 +382,15 @@ impl Drop for TCB {
     }
 }
 
-pub fn TCB(tasks: TaskGroupArc,
+pub fn Taskgroup(tasks: TaskGroupArc,
        ancestors: AncestorList,
        is_main: bool,
-       mut notifier: Option<AutoNotify>) -> TCB {
+       mut notifier: Option<AutoNotify>) -> Taskgroup {
     for notifier.mut_iter().advance |x| {
         x.failed = false;
     }
 
-    TCB {
+    Taskgroup {
         tasks: tasks,
         ancestors: ancestors,
         is_main: is_main,
@@ -536,11 +536,11 @@ impl RuntimeGlue {
         }
     }
 
-    fn with_my_taskgroup<U>(blk: &fn(&TCB) -> U) -> U {
+    fn with_my_taskgroup<U>(blk: &fn(&Taskgroup) -> U) -> U {
         match context() {
             OldTaskContext => unsafe {
                 let me = rt::rust_get_task();
-                let g: @@mut TCB = match local_get(OldHandle(me), taskgroup_key!()) {
+                let g: @@mut Taskgroup = match local_get(OldHandle(me), taskgroup_key!()) {
                     None => {
                         // Main task, doing first spawn ever. Lazily initialise here.
                         let mut members = TaskSet::new();
@@ -550,7 +550,8 @@ impl RuntimeGlue {
                             descendants: TaskSet::new(),
                         }));
                         // Main task/group has no ancestors, no notifier, etc.
-                        let group = @@mut TCB(tasks, AncestorList(None), true, None);
+                        let group = @@mut Taskgroup(tasks, AncestorList(None),
+                                                    true, None);
                         local_set(OldHandle(me), taskgroup_key!(), group);
                         group
                     }
@@ -572,7 +573,7 @@ impl RuntimeGlue {
                             members: members,
                             descendants: TaskSet::new(),
                         }));
-                        let group = TCB(tasks, AncestorList(None), true, None);
+                        let group = Taskgroup(tasks, AncestorList(None), true, None);
                         (*me).taskgroup = Some(group);
                         (*me).taskgroup.get_ref()
                     }
@@ -678,7 +679,7 @@ fn spawn_raw_newsched(mut opts: TaskOpts, f: ~fn()) {
             if enlist_many(NewTask(handle), &child_tg, &mut ancestors) {
                 // Got in. We can run the provided child body, and can also run
                 // the taskgroup's exit-time-destructor afterward.
-                me.taskgroup = Some(TCB(child_tg, ancestors, is_main, None));
+                me.taskgroup = Some(Taskgroup(child_tg, ancestors, is_main, None));
                 true
             } else {
                 false
@@ -776,7 +777,7 @@ fn spawn_raw_oldsched(mut opts: TaskOpts, f: ~fn()) {
             let notifier = notify_chan.map_consume(|c| AutoNotify(c));
 
             if enlist_many(OldTask(child), &child_arc, &mut ancestors) {
-                let group = @@mut TCB(child_arc, ancestors, is_main, notifier);
+                let group = @@mut Taskgroup(child_arc, ancestors, is_main, notifier);
                 unsafe {
                     local_set(OldHandle(child), taskgroup_key!(), group);
                 }
