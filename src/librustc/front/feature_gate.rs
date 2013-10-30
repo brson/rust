@@ -140,12 +140,11 @@ impl Visitor<()> for Context {
 
             },
             ast::ty_box(_) => {
-                self.gate_feature("managed_boxes", t.span, "The managed box syntax may be replaced \
+                self.gate_feature("managed_boxes", t.span, "The managed box syntax will be replaced \
                                                             by a library type, and a garbage \
                                                             collector is not yet implemented. \
-                                                            Consider using the `std::rc` module \
-                                                            as it performs much better as a \
-                                                            reference counting implementation.");
+                                                            Consider using the `std::rc::Rc` type \
+                                                            for reference counted pointers.");
             }
             _ => {}
         }
