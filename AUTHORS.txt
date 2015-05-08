@@ -42,7 +42,6 @@ Alexandre Gagnon <alxgnon@gmail.com>
 Alexandros Tasos <sdi1100085@di.uoa.gr>
 Alexei Sholik <alcosholik@gmail.com>
 Alexis Beingessner <a.beingessner@gmail.com>
-Alfie John <alfie@alfie.wtf>
 Alfie John <alfiej@fastmail.fm>
 Ali Smesseim <smesseim.ali@gmail.com>
 Alisdair Owens <awo101@zepler.net>
@@ -296,7 +295,6 @@ Felix S. Klock II <pnkfelix@pnkfx.org>
 Fenhl <fenhl@fenhl.net>
 Filip Szczepański <jazz2rulez@gmail.com>
 Flaper Fesp <flaper87@gmail.com>
-Flavio Percoco <flaper87@gmail.com>
 Florian Gilcher <florian.gilcher@asquera.de>
 Florian Hahn <flo@fhahn.com>
 Florian Hartwig <florian.j.hartwig@gmail.com>
@@ -319,7 +317,6 @@ Georges Dubus <georges.dubus@gmail.com>
 Germano Gabbianelli <tyrion@users.noreply.github.com>
 Gil Cottle <rc@redtown.org>
 Gioele Barabucci <gioele@svario.it>
-GlacJAY <glacjay@gmail.com>
 Gleb Kozyrev <gleb@gkoz.com>
 Glenn Willen <gwillen@nerdnet.org>
 Gonçalo Cabrita <_@gmcabrita.com>
@@ -384,7 +381,6 @@ Jake Scott <jake.net@gmail.com>
 Jakub Bukaj <jakub@jakub.cc>
 Jakub Wieczorek <jakubw@jakubw.net>
 Jakub Vrána <jakub@vrana.cz>
-Jakub Wieczorek <jakubw@jakubw.net>
 James Deng <cnjamesdeng@gmail.com>
 James Hurst <jamesrhurst@users.noreply.github.com>
 James Lal <james@lightsofapollo.com>
@@ -448,7 +444,6 @@ John Gallagher <jgallagher@bignerdranch.com>
 John Hodge <acessdev@gmail.com>
 John Kåre Alsaker <john.kare.alsaker@gmail.com>
 John Kleint <jk@hinge.co>
-John Kåre Alsaker <john.kare.alsaker@gmail.com>
 John Louis Walker <injyuw@gmail.com>
 John Schmidt <john.schmidt.h@gmail.com>
 John Simon <john@johnsoft.com>
@@ -612,10 +607,8 @@ Mikhail Zabaluev <mikhail.zabaluev@gmail.com>
 Mikko Perttunen <cyndis@kapsi.fi>
 Ms2ger <ms2ger@gmail.com>
 Mukilan Thiagarajan <mukilanthiagarajan@gmail.com>
-Mukilan Thiyagarajan <mukilanthiagarajan@gmail.com>
 Murarth <murarth@gmail.com>
 Mátyás Mustoha <mmatyas@inf.u-szeged.hu>
-NAKASHIMA, Makoto <makoto.nksm+github@gmail.com>
 NODA, Kai <nodakai@gmail.com>
 Nafis <nhoss2@gmail.com>
 Nathan Froyd <froydnj@gmail.com>
@@ -627,7 +620,6 @@ Nathaniel Theis <nttheis@gmail.com>
 Neil Pankey <npankey@gmail.com>
 Nelson Chen <crazysim@gmail.com>
 NiccosSystem <niccossystem@gmail.com>
-Nicholas <npmazzuca@gmail.com>
 Nicholas Bishop <nicholasbishop@gmail.com>
 Nicholas Mazzuca <npmazzuca@gmail.com>
 Nick Cameron <ncameron@mozilla.com>
@@ -695,11 +687,9 @@ Piotr Jawniak <sawyer47@gmail.com>
 Piotr Szotkowski <chastell@chastell.net>
 Piotr Zolnierek <pz@anixe.pl>
 Potpourri <pot_pourri@mail.ru>
-Pradeep Kumar <gohanpra@gmail.com>
 Prudhvi Krishna Surapaneni <me@prudhvi.net>
 Pyfisch <pyfisch@gmail.com>
 Pyry Kontio <pyry.kontio@drasa.eu>
-Pythoner6 <pythoner6@gmail.com>
 Q.P.Liu <qpliu@yahoo.com>
 Rafael Ávila de Espíndola <respindola@mozilla.com>
 Rahul Horé <hore.rahul@gmail.com>
@@ -716,7 +706,6 @@ Reilly Watson <reillywatson@gmail.com>
 Remi Rampin <remirampin@gmail.com>
 Renato Alves <alves.rjc@gmail.com>
 Renato Riccieri Santos Zannon <renato@rrsz.com.br>
-Renato Zannon <renato@rrsz.com.br>
 Reuben Morais <reuben.morais@gmail.com>
 Ricardo M. Correia <rcorreia@wizy.org>
 Ricardo Martins <ricardo@scarybox.net>
@@ -750,7 +739,6 @@ Ryan Mulligan <ryan@ryantm.com>
 Ryan Prichard <ryan.prichard@gmail.com>
 Ryan Riginding <marc.riginding@gmail.com>
 Ryan Scheel <ryan.havvy@gmail.com>
-Ryman <haqkrs@gmail.com>
 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
 S Pradeep Kumar <gohanpra@gmail.com>
 Sae-bom Kim <sae-bom.kim@samsung.com>
@@ -832,7 +820,6 @@ Till Hoeppner <till@hoeppner.ws>
 Tim Brooks <brooks@cern.ch>
 Tim Chevalier <chevalier@alum.wellesley.edu>
 Tim Cuthbertson <tim@gfxmonk.net>
-Tim Dumol <tim@timdumol.com>
 Tim Joseph Dumol <tim@timdumol.com>
 Tim Kuehn <tkuehn@cmu.edu>
 Tim Parenti <timparenti@gmail.com>
@@ -915,20 +902,16 @@ Zack Slayton <zack.slayton@gmail.com>
 Zbigniew Siciarz <zbigniew@siciarz.net>
 Ziad Hatahet <hatahet@gmail.com>
 Zooko Wilcox-O'Hearn <zooko@zooko.com>
-adridu59 <adri-from-59@hotmail.fr>
-aochagavia <aochagavia92@gmail.com>
 areski <areski@gmail.com>
 arturo <arturo@openframeworks.cc>
 auREAX <mark@xn--hwg34fba.ws>
 awlnx <alecweber1994@gmail.com>
 aydin.kim <aydin.kim@samsung.com>
-b1nd <clint.ryan3@gmail.com>
 bachm <Ab@vapor.com>
 bcoopers <coopersmithbrian@gmail.com>
 blackbeam <aikorsky@gmail.com>
 blake2-ppc <ulrik.sverdrup@gmail.com>
 bluss <bluss>
-bombless <bombless@126.com>
 bors <bors@rust-lang.org>
 caipre <platt.nicholas@gmail.com>
 chitra
@@ -951,7 +934,6 @@ g3xzh <g3xzh@yahoo.com>
 gamazeps <gamaz3ps@gmail.com>
 gareth <gareth@gareth-N56VM.(none)>
 gentlefolk <cemacken@gmail.com>
-gifnksm <makoto.nksm@gmail.com>
 github-monoculture <eocene@gmx.com>
 hansjorg <hansjorg@gmail.com>
 iancormac84 <wilnathan@gmail.com>
@@ -959,7 +941,6 @@ inrustwetrust <inrustwetrust@users.noreply.github.com>
 jamesluke <jamesluke@users.noreply.github.com>
 jatinn <jatinn@users.noreply.github.com>
 jbranchaud <jbranchaud@gmail.com>
-jfager <jfager@gmail.com>
 jmgrosen <jmgrosen@gmail.com>
 jmu303 <muj@bc.edu>
 joaoxsouls <joaoxsouls@gmail.com>
@@ -970,9 +951,7 @@ kgv <mail@kgv.name>
 kjpgit <kjpgit@users.noreply.github.com>
 klutzy <klutzytheklutzy@gmail.com>
 korenchkin <korenchkin2@gmail.com>
-kud1ing <github@kudling.de>
 kulakowski <george.kulakowski@gmail.com>
-kvark <kvarkus@gmail.com>
 kwantam <kwantam@gmail.com>
 lpy <pylaurent1314@gmail.com>
 lucy <ne.tetewi@gmail.com>
@@ -991,7 +970,6 @@ mrec <mike.capp@gmail.com>
 musitdev <philippe.delrieu@free.fr>
 nathan dotz <nathan.dotz@gmail.com>
 nham <hamann.nick@gmail.com>
-niftynif <nif.ward@gmail.com>
 noam <noam@clusterfoo.com>
 novalis <novalis@novalis.org>
 nsf <no.smile.face@gmail.com>
@@ -1020,13 +998,10 @@ tinaun <tinagma@gmail.com>
 tshakah <tshakah@gmail.com>
 ville-h <ville3.14159@gmail.com>
 visualfc <visualfc@gmail.com>
-we <vadim.petrochenkov@gmail.com>
 whataloadofwhat <unusualmoniker@gmail.com>
 wickerwaka <martin.donlon@gmail.com>
 wonyong kim <wonyong.kim@samsung.com>
 xales <xales@naveria.com>
 zofrex <zofrex@gmail.com>
-zslayton <zack.slayton@gmail.com>
-zzmp <zmp@umich.edu>
 Łukasz Niemier <lukasz@niemier.pl>
 克雷 <geekcraik@users.noreply.github.com>
