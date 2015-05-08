@@ -42,7 +42,7 @@ Alexandre Gagnon <alxgnon@gmail.com>
 Alexandros Tasos <sdi1100085@di.uoa.gr>
 Alexei Sholik <alcosholik@gmail.com>
 Alexis Beingessner <a.beingessner@gmail.com>
-Alfie John <alfiej@fastmail.fm>
+Alfie John <alfie@alfie.wtf>
 Ali Smesseim <smesseim.ali@gmail.com>
 Alisdair Owens <awo101@zepler.net>
 Aljaž "g5pw" Srebrnič <a2piratesoft@gmail.com>
