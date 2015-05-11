@@ -890,7 +890,7 @@ Ziad Hatahet <hatahet@gmail.com>
 Zooko Wilcox-O'Hearn <zooko@zooko.com>
 adridu59 <adri-from-59@hotmail.fr>
 aochagavia <aochagavia92@gmail.com>
-areski <areski@gmail.com>
+Areski Belaid <areski@gmail.com>
 arturo <arturo@openframeworks.cc>
 auREAX <mark@xn--hwg34fba.ws>
 awlnx <alecweber1994@gmail.com>
