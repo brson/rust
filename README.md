@@ -1,4 +1,4 @@
-# The Rust Programming Language
+# The Rust Programming Language - Tour de std
 
 Rust is a systems programming language that is fast, memory safe and
 multithreaded, but does not employ a garbage collector or otherwise
