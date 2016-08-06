@@ -130,6 +130,12 @@ const UNWIND_DATA_REG: (i32, i32) = (4, 5); // A0, A1
 #[cfg(any(target_arch = "powerpc", target_arch = "powerpc64"))]
 const UNWIND_DATA_REG: (i32, i32) = (3, 4); // R3, R4 / X3, X4
 
+// FIXME: This is completely and utterly wrong.
+// I copy'n'pasted the x86 thing just to see if asmjs-unknown-emscripten compiles at all
+// (the happy path)
+#[cfg(target_arch = "asmjs")]
+const UNWIND_DATA_REG: (i32, i32) = (0, 2); // EAX, EDX
+
 // The following code is based on GCC's C and C++ personality routines.  For reference, see:
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc++-v3/libsupc++/eh_personality.cc
 // https://github.com/gcc-mirror/gcc/blob/trunk/libgcc/unwind-c.c
