@@ -136,6 +136,10 @@ const UNWIND_DATA_REG: (i32, i32) = (3, 4); // R3, R4 / X3, X4
 #[cfg(target_arch = "asmjs")]
 const UNWIND_DATA_REG: (i32, i32) = (0, 2); // EAX, EDX
 
+// FIXME: Ditto the above
+#[cfg(target_arch = "wasm32")]
+const UNWIND_DATA_REG: (i32, i32) = (0, 2); // EAX, EDX
+
 // The following code is based on GCC's C and C++ personality routines.  For reference, see:
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc++-v3/libsupc++/eh_personality.cc
 // https://github.com/gcc-mirror/gcc/blob/trunk/libgcc/unwind-c.c

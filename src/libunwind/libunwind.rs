@@ -59,7 +59,7 @@ pub const unwinder_private_data_size: usize = 2;
 #[cfg(any(target_arch = "powerpc", target_arch = "powerpc64"))]
 pub const unwinder_private_data_size: usize = 2;
 
-#[cfg(target_arch = "asmjs")]
+#[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
 pub const unwinder_private_data_size: usize = 20;
 
 #[repr(C)]

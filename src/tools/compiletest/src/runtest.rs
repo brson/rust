@@ -1412,6 +1412,10 @@ actual:\n\
             let mut fname = f.file_name().unwrap().to_os_string();
             fname.push(".js");
             f.set_file_name(&fname);
+        } else if self.config.target == "wasm32-unknown-emscripten" {
+            let mut fname = f.file_name().unwrap().to_os_string();
+            fname.push(".wast");
+            f.set_file_name(&fname);
         } else if !env::consts::EXE_SUFFIX.is_empty() {
             let mut fname = f.file_name().unwrap().to_os_string();
             fname.push(env::consts::EXE_SUFFIX);
@@ -1428,6 +1432,8 @@ actual:\n\
         // If this is emscripten, then run tests under nodejs
         if self.config.target == "asmjs-unknown-emscripten" {
             args.push("nodejs".to_owned());
+        } else if self.config.target == "wasm32-unknown-emscripten" {
+            panic!("don't know how to test wasm yet");
         }
 
         let exe_file = self.make_exe_name();
