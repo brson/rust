@@ -387,8 +387,18 @@ fn krate_asmjs(build: &Build,
 
      for test in tests {
          let test_file_name = test.to_string_lossy().into_owned();
-         let output = output(Command::new("node").arg(&test_file_name));
-         println!("{}", output);
+         let output = Command::new("node")
+             .arg(&test_file_name)
+             .stderr(::std::process::Stdio::inherit())
+             .output();
+         let output = match output {
+             Ok(status) => status,
+             Err(e) => panic!(format!("failed to execute command: {}", e)),
+         };
+         println!("{}", String::from_utf8(output.stdout).unwrap());
+         if !output.status.success() {
+             panic!("some tests failed");
+         }
      }
  }
 
