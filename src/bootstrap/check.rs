@@ -326,6 +326,8 @@ pub fn krate(build: &Build,
     } else if target.contains("asmjs") {
         build.run(cargo.arg("--no-run"));
         krate_asmjs(build, compiler, target, mode);
+    } else if target.contains("wasm32") {
+        panic!("don't know how to test wasm32 yet");
     } else {
         cargo.args(&build.flags.args);
         build.run(&mut cargo);
