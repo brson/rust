@@ -32,6 +32,10 @@ unsafe impl Sync for Thread {}
 impl Thread {
     pub unsafe fn new<'a>(stack: usize, p: Box<FnBox() + 'a>)
                           -> io::Result<Thread> {
+        if cfg!(target_os = "emscripten") {
+            return Err(io::Error::new(io::ErrorKind::Other, "emscripten does not support threads"));
+        }
+
         let p = box p;
         let mut native: libc::pthread_t = mem::zeroed();
         let mut attr: libc::pthread_attr_t = mem::zeroed();
