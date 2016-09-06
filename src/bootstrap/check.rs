@@ -385,6 +385,7 @@ fn krate_emscripten(build: &Build,
 
      for test in tests {
          let test_file_name = test.to_string_lossy().into_owned();
+         println!("running {}", test_file_name);
          let output = Command::new("node")
              .arg(&test_file_name)
              .stderr(::std::process::Stdio::inherit())
