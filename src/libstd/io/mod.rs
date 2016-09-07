@@ -1761,6 +1761,7 @@ mod tests {
     use super::repeat;
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn read_until() {
         let mut buf = Cursor::new(&b"12"[..]);
         let mut v = Vec::new();
@@ -1960,6 +1961,7 @@ mod tests {
     }
 
     #[bench]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn bench_read_to_end(b: &mut test::Bencher) {
         b.iter(|| {
             let mut lr = repeat(1).take(10000000);
