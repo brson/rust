@@ -1010,6 +1010,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_var_big() {
         let mut s = "".to_string();
         let mut i = 0;
@@ -1023,6 +1024,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_self_exe_path() {
         let path = current_exe();
         assert!(path.is_ok());
@@ -1033,6 +1035,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_env_set_get_huge() {
         let n = make_rand_name();
         let s = repeat("x").take(10000).collect::<String>();

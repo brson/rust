@@ -257,6 +257,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn notify_one() {
         let m = Arc::new(Mutex::new(()));
         let m2 = m.clone();
@@ -273,6 +274,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn notify_all() {
         const N: usize = 10;
 
@@ -309,6 +311,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn wait_timeout_ms() {
         let m = Arc::new(Mutex::new(()));
         let m2 = m.clone();
@@ -330,6 +333,7 @@ mod tests {
 
     #[test]
     #[should_panic]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn two_mutexes() {
         let m = Arc::new(Mutex::new(()));
         let m2 = m.clone();

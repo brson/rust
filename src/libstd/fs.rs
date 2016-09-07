@@ -1733,6 +1733,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_io_smoke_test() {
         let message = "it's alright. have a good time";
         let tmpdir = tmpdir();
@@ -1754,6 +1755,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn invalid_path_raises() {
         let tmpdir = tmpdir();
         let filename = &tmpdir.join("file_that_does_not_exist.txt");
@@ -1768,6 +1770,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_iounlinking_invalid_path_should_raise_condition() {
         let tmpdir = tmpdir();
         let filename = &tmpdir.join("file_another_file_that_does_not_exist.txt");
@@ -1783,6 +1786,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_io_non_positional_read() {
         let message: &str = "ten-four";
         let mut read_mem = [0; 8];
@@ -1809,6 +1813,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_io_seek_and_tell_smoke_test() {
         let message = "ten-four";
         let mut read_mem = [0; 4];
@@ -1836,6 +1841,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_io_seek_and_write() {
         let initial_msg =   "food-is-yummy";
         let overwrite_msg =    "-the-bar!!";
@@ -1860,6 +1866,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_io_seek_shakedown() {
         //                   01234567890123
         let initial_msg =   "qwer-asdf-zxcv";
@@ -1892,6 +1899,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_stat_is_correct_on_is_file() {
         let tmpdir = tmpdir();
         let filename = &tmpdir.join("file_stat_correct_on_is_file.txt");
@@ -1913,6 +1921,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_stat_is_correct_on_is_dir() {
         let tmpdir = tmpdir();
         let filename = &tmpdir.join("file_stat_correct_on_is_dir");
@@ -1925,6 +1934,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_fileinfo_false_when_checking_is_file_on_a_directory() {
         let tmpdir = tmpdir();
         let dir = &tmpdir.join("fileinfo_false_on_dir");
@@ -1934,6 +1944,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_fileinfo_check_exists_before_and_after_file_creation() {
         let tmpdir = tmpdir();
         let file = &tmpdir.join("fileinfo_check_exists_b_and_a.txt");
@@ -1944,6 +1955,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_directoryinfo_check_exists_before_and_after_mkdir() {
         let tmpdir = tmpdir();
         let dir = &tmpdir.join("before_and_after_dir");
@@ -1956,6 +1968,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_test_directoryinfo_readdir() {
         let tmpdir = tmpdir();
         let dir = &tmpdir.join("di_readdir");
@@ -1985,6 +1998,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_create_new_already_exists_error() {
         let tmpdir = tmpdir();
         let file = &tmpdir.join("file_create_new_error_exists");
@@ -1994,6 +2008,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn mkdir_path_already_exists_error() {
         let tmpdir = tmpdir();
         let dir = &tmpdir.join("mkdir_error_twice");
@@ -2003,6 +2018,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn recursive_mkdir() {
         let tmpdir = tmpdir();
         let dir = tmpdir.join("d1/d2");
@@ -2011,6 +2027,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn recursive_mkdir_failure() {
         let tmpdir = tmpdir();
         let dir = tmpdir.join("d1");
@@ -2025,11 +2042,13 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn recursive_mkdir_slash() {
         check!(fs::create_dir_all(&Path::new("/")));
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn recursive_rmdir() {
         let tmpdir = tmpdir();
         let d1 = tmpdir.join("d1");
@@ -2049,6 +2068,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn recursive_rmdir_of_symlink() {
         // test we do not recursively delete a symlink but only dirs.
         let tmpdir = tmpdir();
@@ -2082,6 +2102,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn unicode_path_is_dir() {
         assert!(Path::new(".").is_dir());
         assert!(!Path::new("test/stdtest/fs.rs").is_dir());
@@ -2101,6 +2122,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn unicode_path_exists() {
         assert!(Path::new(".").exists());
         assert!(!Path::new("test/nonexistent-bogus-path").exists());
@@ -2114,6 +2136,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_file_does_not_exist() {
         let from = Path::new("test/nonexistent-bogus-path");
         let to = Path::new("test/other-bogus-path");
@@ -2128,6 +2151,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_src_does_not_exist() {
         let tmpdir = tmpdir();
         let from = Path::new("test/nonexistent-bogus-path");
@@ -2141,6 +2165,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_file_ok() {
         let tmpdir = tmpdir();
         let input = tmpdir.join("in.txt");
@@ -2157,6 +2182,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_file_dst_dir() {
         let tmpdir = tmpdir();
         let out = tmpdir.join("out");
@@ -2168,6 +2194,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_file_dst_exists() {
         let tmpdir = tmpdir();
         let input = tmpdir.join("in");
@@ -2183,6 +2210,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_file_src_dir() {
         let tmpdir = tmpdir();
         let out = tmpdir.join("out");
@@ -2194,6 +2222,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn copy_file_preserves_perm_bits() {
         let tmpdir = tmpdir();
         let input = tmpdir.join("in.txt");
@@ -2222,6 +2251,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn symlinks_work() {
         let tmpdir = tmpdir();
         if !got_symlink_permission(&tmpdir) { return };
@@ -2240,6 +2270,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn symlink_noexist() {
         // Symlinks can point to things that don't exist
         let tmpdir = tmpdir();
@@ -2253,6 +2284,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn read_link() {
         if cfg!(windows) {
             // directory symlink
@@ -2273,6 +2305,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn readlink_not_symlink() {
         let tmpdir = tmpdir();
         match fs::read_link(tmpdir.path()) {
@@ -2282,6 +2315,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn links_work() {
         let tmpdir = tmpdir();
         let input = tmpdir.join("in.txt");
@@ -2310,6 +2344,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn chmod_works() {
         let tmpdir = tmpdir();
         let file = tmpdir.join("in.txt");
@@ -2333,6 +2368,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn sync_doesnt_kill_anything() {
         let tmpdir = tmpdir();
         let path = tmpdir.join("in.txt");
@@ -2346,6 +2382,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn truncate_works() {
         let tmpdir = tmpdir();
         let path = tmpdir.join("in.txt");
@@ -2380,6 +2417,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn open_flavors() {
         use fs::OpenOptions as OO;
         fn c<T: Clone>(t: &T) -> T { t.clone() }
@@ -2499,6 +2537,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn binary_file() {
         let mut bytes = [0; 1024];
         StdRng::new().unwrap().fill_bytes(&mut bytes);
@@ -2512,6 +2551,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn file_try_clone() {
         let tmpdir = tmpdir();
 
@@ -2534,6 +2574,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     #[cfg(not(windows))]
     fn unlink_readonly() {
         let tmpdir = tmpdir();
@@ -2546,6 +2587,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn mkdir_trailing_slash() {
         let tmpdir = tmpdir();
         let path = tmpdir.join("file");
@@ -2553,6 +2595,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn canonicalize_works_simple() {
         let tmpdir = tmpdir();
         let tmpdir = fs::canonicalize(tmpdir.path()).unwrap();
@@ -2562,6 +2605,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn realpath_works() {
         let tmpdir = tmpdir();
         if !got_symlink_permission(&tmpdir) { return };
@@ -2587,6 +2631,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn realpath_works_tricky() {
         let tmpdir = tmpdir();
         if !got_symlink_permission(&tmpdir) { return };
@@ -2616,6 +2661,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn dir_entry_methods() {
         let tmpdir = tmpdir();
 
@@ -2639,12 +2685,14 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn read_dir_not_found() {
         let res = fs::read_dir("/path/that/does/not/exist");
         assert_eq!(res.err().unwrap().kind(), ErrorKind::NotFound);
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn create_dir_all_with_junctions() {
         let tmpdir = tmpdir();
         let target = tmpdir.join("target");
@@ -2672,6 +2720,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn metadata_access_times() {
         let tmpdir = tmpdir();
 

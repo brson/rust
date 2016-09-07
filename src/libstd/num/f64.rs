@@ -1510,6 +1510,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_exp2() {
         assert_eq!(32.0, 5.0f64.exp2());
         assert_eq!(1.0, 0.0f64.exp2());
@@ -1556,6 +1557,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_log2() {
         let nan: f64 = NAN;
         let inf: f64 = INFINITY;
@@ -1572,6 +1574,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_log10() {
         let nan: f64 = NAN;
         let inf: f64 = INFINITY;
