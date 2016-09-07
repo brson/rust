@@ -152,6 +152,7 @@ mod tests {
 
     macro_rules! test_next_power_of_two {
         ($test_name:ident, $T:ident) => (
+            #[cfg_attr(target_os = "emscripten", ignore)] // missing ctlz intrinsics
             fn $test_name() {
                 #![test]
                 assert_eq!((0 as $T).next_power_of_two(), 1);
@@ -172,6 +173,7 @@ mod tests {
 
     macro_rules! test_checked_next_power_of_two {
         ($test_name:ident, $T:ident) => (
+            #[cfg_attr(target_os = "emscripten", ignore)] // missing ctlz intrinsics
             fn $test_name() {
                 #![test]
                 assert_eq!((0 as $T).checked_next_power_of_two(), Some(1));

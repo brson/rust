@@ -11,6 +11,7 @@
 use core::num::flt2dec::estimator::*;
 
 #[test]
+#[cfg_attr(target_os = "emscripten", ignore)] // llvm_log10_f64
 fn test_estimate_scaling_factor() {
     macro_rules! assert_almost_eq {
         ($actual:expr, $expected:expr) => ({

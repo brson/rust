@@ -1293,6 +1293,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_send() {
         let n = list_from(&[1, 2, 3]);
         thread::spawn(move || {

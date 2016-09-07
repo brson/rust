@@ -374,6 +374,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn lots_and_lots() {
         const J: u32 = 1000;
         const K: u32 = 3;
@@ -434,6 +435,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_into_inner_poison() {
         let m = Arc::new(Mutex::new(NonCopy(10)));
         let m2 = m.clone();
@@ -457,6 +459,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_get_mut_poison() {
         let m = Arc::new(Mutex::new(NonCopy(10)));
         let m2 = m.clone();
@@ -473,6 +476,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_mutex_arc_condvar() {
         let packet = Packet(Arc::new((Mutex::new(false), Condvar::new())));
         let packet2 = Packet(packet.0.clone());
@@ -496,6 +500,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_arc_condvar_poison() {
         let packet = Packet(Arc::new((Mutex::new(1), Condvar::new())));
         let packet2 = Packet(packet.0.clone());
@@ -525,6 +530,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_mutex_arc_poison() {
         let arc = Arc::new(Mutex::new(1));
         assert!(!arc.is_poisoned());
@@ -538,6 +544,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_mutex_arc_nested() {
         // Tests nested mutexes and access
         // to underlying data.
@@ -554,6 +561,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(target_os = "emscripten", ignore)]
     fn test_mutex_arc_access_in_unwind() {
         let arc = Arc::new(Mutex::new(1));
         let arc2 = arc.clone();
