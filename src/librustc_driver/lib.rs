@@ -1079,7 +1079,7 @@ pub fn monitor<F: FnOnce() + Send + 'static>(f: F) {
     }
 
     let thread = cfg.spawn(move || {
-         io::set_panic(box err);
+         io::set_panic(Some(box err));
          f()
      });
 
@@ -1125,7 +1125,7 @@ fn exit_on_err() -> ! {
     // Panic so the process returns a failure code, but don't pollute the
     // output with some unnecessary panic messages, we've already
     // printed everything that we needed to.
-    io::set_panic(box io::sink());
+    io::set_panic(Some(box io::sink()));
     panic!();
 }
 
