@@ -100,15 +100,6 @@ pub fn check(build: &mut Build) {
     }
 
     for target in build.config.target.iter() {
-        // Either can't build or don't want to run jemalloc on these targets
-        if target.contains("rumprun") ||
-           target.contains("bitrig") ||
-           target.contains("openbsd") ||
-           target.contains("msvc") ||
-           target.contains("emscripten") {
-            build.config.use_jemalloc = false;
-        }
-
         // Can't compile for iOS unless we're on OSX
         if target.contains("apple-ios") &&
            !build.config.build.contains("apple-darwin") {
