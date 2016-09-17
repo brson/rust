@@ -712,13 +712,25 @@ impl Build {
 
     /// Get the space-separated set of activated features for the standard
     /// library.
-    fn std_features(&self) -> String {
-        let mut features = String::new();
-        if self.config.debug_jemalloc {
-            features.push_str(" debug-jemalloc");
+    fn std_features(&self, target: &str) -> String {
+        // Either can't build or don't want to run jemalloc on these targets
+        let mut can_use_jemalloc = true;
+        if target.contains("rumprun") ||
+           target.contains("bitrig") ||
+           target.contains("openbsd") ||
+           target.contains("msvc") ||
+           target.contains("emscripten") {
+            can_use_jemalloc = false;
         }
-        if self.config.use_jemalloc {
-            features.push_str(" jemalloc");
+
+        let mut features = String::new();
+        if can_use_jemalloc {
+            if self.config.debug_jemalloc {
+                features.push_str(" debug-jemalloc");
+            }
+            if self.config.use_jemalloc {
+                features.push_str(" jemalloc");
+            }
         }
         if self.config.backtrace {
             features.push_str(" backtrace");
