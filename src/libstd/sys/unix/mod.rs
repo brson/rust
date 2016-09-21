@@ -33,6 +33,7 @@ pub mod android;
 #[cfg(any(not(cargobuild), feature = "backtrace"))]
 pub mod backtrace;
 pub mod condvar;
+pub mod env;
 pub mod ext;
 pub mod fd;
 pub mod fs;
