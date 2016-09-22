@@ -14,6 +14,8 @@
 //! etc. This is run by default on `make check` and as part of the auto
 //! builders.
 
+#![feature(impl_trait)]
+
 use std::fs;
 use std::path::{PathBuf, Path};
 use std::env;
@@ -36,6 +38,7 @@ mod errors;
 mod features;
 mod cargo;
 mod cargo_lock;
+mod pal;
 
 fn main() {
     let path = env::args_os().skip(1).next().expect("need an argument");
@@ -48,6 +51,7 @@ fn main() {
     cargo::check(&path, &mut bad);
     features::check(&path, &mut bad);
     cargo_lock::check(&path, &mut bad);
+    pal::check(&path, &mut bad);
 
     if bad {
         panic!("some tidy checks failed");
