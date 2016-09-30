@@ -37,6 +37,7 @@ pub mod backtrace;
 pub mod condvar;
 pub mod env;
 pub mod ext;
+pub mod fast_thread_local;
 pub mod fd;
 pub mod fs;
 pub mod memchr;
