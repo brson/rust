@@ -182,7 +182,7 @@ pub use self::local::{LocalKey, LocalKeyState};
 
 #[unstable(feature = "libstd_thread_internals", issue = "0")]
 #[cfg(target_thread_local)]
-#[doc(hidden)] pub use self::local::elf::Key as __LocalKeyInner;
+#[doc(hidden)] pub use sys::fast_thread_local::Key as __LocalKeyInner;
 #[unstable(feature = "libstd_thread_internals", issue = "0")]
 #[cfg(not(target_thread_local))]
 #[doc(hidden)] pub use self::local::os::Key as __LocalKeyInner;
