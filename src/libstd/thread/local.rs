@@ -166,12 +166,12 @@ macro_rules! __thread_local_inner {
         {
             #[thread_local]
             #[cfg(target_thread_local)]
-            static __KEY: $crate::thread::__ElfLocalKeyInner<$t> =
-                $crate::thread::__ElfLocalKeyInner::new();
+            static __KEY: $crate::thread::__LocalKeyInner<$t> =
+                $crate::thread::__LocalKeyInner::new();
 
             #[cfg(not(target_thread_local))]
-            static __KEY: $crate::thread::__OsLocalKeyInner<$t> =
-                $crate::thread::__OsLocalKeyInner::new();
+            static __KEY: $crate::thread::__LocalKeyInner<$t> =
+                $crate::thread::__LocalKeyInner::new();
 
             __KEY.get()
         }
@@ -458,6 +458,7 @@ pub mod elf {
 }
 
 #[doc(hidden)]
+#[cfg(not(target_thread_local))]
 pub mod os {
     use cell::{Cell, UnsafeCell};
     use marker;
