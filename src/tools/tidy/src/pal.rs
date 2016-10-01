@@ -57,12 +57,15 @@ const EXCEPTION_PATHS: &'static [&'static str] = &[
     "src/libpanic_abort",
     "src/libpanic_unwind",
     "src/libunwind",
+    "src/libpal_unix",
+    "src/libpal_windows",
     "src/libstd/sys/", // Platform-specific code for std lives here.
                        // This has the trailing slash so that sys_common is not excepted.
     "src/libstd/os", // Platform-specific public interfaces
     "src/rtstartup", // Not sure what to do about this. magic stuff for mingw
 
     // temporary exceptions
+    "src/libstd/pal.rs",
     "src/libstd/rtdeps.rs", // Until rustbuild replaces make
     "src/libstd/path.rs",
     "src/libstd/f32.rs",
