@@ -23,6 +23,12 @@ compiler_builtins = { path = "../libcompiler_builtins" }
 rustc_unicode = { path = "../librustc_unicode" }
 unwind = { path = "../libunwind" }
 
+[target.'cfg(unix)'.dependencies]
+pal_unix = { path = "../libpal_unix" }
+
+[target.'cfg(windows)'.dependencies]
+pal_windows = { path = "../libpal_windows" }
+
 [build-dependencies]
 build_helper = { path = "../build_helper" }
 gcc = "0.3.27"
