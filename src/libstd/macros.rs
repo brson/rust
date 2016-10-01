@@ -184,6 +184,10 @@ macro_rules! assert_approx_eq {
     })
 }
 
+macro_rules! rtabort {
+    ($($t:tt)*) => (::sys_common::util::abort(format_args!($($t)*)))
+}
+
 /// Built-in macros to the compiler itself.
 ///
 /// These macros do not have any corresponding definition with a `macro_rules!`
