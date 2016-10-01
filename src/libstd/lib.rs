@@ -270,6 +270,7 @@
 #![feature(on_unimplemented)]
 #![feature(oom)]
 #![feature(optin_builtin_traits)]
+#![feature(platform_abstraction_layer)]
 #![feature(panic_unwind)]
 #![feature(placement_in_syntax)]
 #![feature(prelude_import)]
@@ -452,6 +453,7 @@ mod memchr;
 #[macro_use]
 mod sys_common;
 mod sys;
+mod pal;
 
 // This module just defines per-platform native library dependencies
 mod rtdeps;

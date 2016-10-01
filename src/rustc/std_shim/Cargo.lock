@@ -69,6 +69,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "pal_unix"
+version = "0.0.0"
+dependencies = [
+ "core 0.0.0",
+]
+
+[[package]]
+name = "pal_windows"
+version = "0.0.0"
+dependencies = [
+ "core 0.0.0",
+]
+
+[[package]]
 name = "panic_abort"
 version = "0.0.0"
 dependencies = [
@@ -113,6 +127,8 @@ dependencies = [
  "core 0.0.0",
  "gcc 0.3.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.0.0",
+ "pal_unix 0.0.0",
+ "pal_windows 0.0.0",
  "panic_abort 0.0.0",
  "panic_unwind 0.0.0",
  "rand 0.0.0",
