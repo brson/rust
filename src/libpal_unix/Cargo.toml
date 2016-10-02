@@ -11,4 +11,5 @@ crate-type = ["rlib"]
 [dependencies]
 collections = { path = "../libcollections" }
 core = { path = "../libcore" }
+libc = { path = "../rustc/libc_shim" }
 pal_common = { path = "../libpal_common" }
