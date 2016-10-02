@@ -326,6 +326,7 @@ extern crate collections as core_collections;
 extern crate alloc;
 extern crate rustc_unicode;
 extern crate libc;
+extern crate c_str;
 
 // We always need an unwinder currently for backtraces
 extern crate unwind;

@@ -12,7 +12,7 @@ use error;
 use fmt;
 use result;
 use sys;
-use pal_common::c_str::NulError;
+use c_str::NulError;
 
 /// A specialized [`Result`](../result/enum.Result.html) type for I/O
 /// operations.

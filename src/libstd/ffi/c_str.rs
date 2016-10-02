@@ -17,15 +17,15 @@ use ops;
 use os::raw::c_char;
 use str;
 
-// Everything here is reexported from pal_common except CString and Cstr,
-// which are wrapping pal_common::{CString, CStr} and specializing memchr.
-use pal_common::c_str::CString as PCString;
-use pal_common::c_str::CStr as PCStr;
+// The CString and CStr types wrap the types from the c_str cate, except
+// that they specialize the memchr operations
+use c_str::CString as PCString;
+use c_str::CStr as PCStr;
 
 #[stable(feature = "rust1", since = "1.0.0")]
-pub use pal_common::c_str::{NulError, IntoStringError};
+pub use c_str::{NulError, IntoStringError};
 #[stable(feature = "cstr_from_bytes", since = "1.10.0")]
-pub use pal_common::c_str::{FromBytesWithNulError};
+pub use c_str::{FromBytesWithNulError};
 
 /// A type representing an owned C-compatible string
 ///
@@ -179,7 +179,7 @@ impl CString {
 
     #[inline]
     fn _new(bytes: Vec<u8>) -> Result<CString, NulError> {
-        use pal_common::c_str::_new_nul_error;
+        use c_str::_new_nul_error;
         match memchr::memchr(0, &bytes) {
             Some(i) => Err(_new_nul_error(i, bytes)),
             None => Ok(unsafe { CString::p(PCString::from_vec_unchecked(bytes)) }),
@@ -407,7 +407,7 @@ impl CStr {
     #[inline]
     pub fn from_bytes_with_nul(bytes: &[u8])
                                -> Result<&CStr, FromBytesWithNulError> {
-        use pal_common::c_str::_new_from_bytes_with_nul_error;
+        use c_str::_new_from_bytes_with_nul_error;
         if bytes.is_empty() || memchr::memchr(0, &bytes) != Some(bytes.len() - 1) {
             Err(_new_from_bytes_with_nul_error())
         } else {
