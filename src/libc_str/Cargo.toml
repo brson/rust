@@ -1,10 +1,10 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "pal_common"
+name = "c_str"
 version = "0.0.0"
 
 [lib]
-name = "pal_common"
+name = "c_str"
 path = "lib.rs"
 crate-type = ["rlib"]
 
@@ -12,4 +12,5 @@ crate-type = ["rlib"]
 alloc = { path = "../liballoc" }
 collections = { path = "../libcollections" }
 core = { path = "../libcore" }
-rustc_unicode = { path = "../librustc_unicode" }
+libc = { path = "../rustc/libc_shim" }
+pal_common = { path = "../libpal_common" }

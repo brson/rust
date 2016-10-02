@@ -12,21 +12,40 @@
 //! is wrapped again in std only so that memchr can be implemented
 //! per-platform. Tests are in std.
 
-// FIXME: pal_common should not assume the presence of libc. Either this module
-// needs to convert c_char to u8 and implement strlen itself, or this module
-// needs to move to its own crate that only the platform-specific pal crates
-// depend on.
-extern crate libc;
+#![crate_name = "c_str"]
+#![unstable(feature = "platform_abstraction_layer", reason = "unstable", issue = "0")]
+#![crate_type = "rlib"]
+#![doc(html_logo_url = "https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png",
+       html_favicon_url = "https://doc.rust-lang.org/favicon.ico",
+       html_root_url = "https://doc.rust-lang.org/nightly/",
+       html_playground_url = "https://play.rust-lang.org/",
+       issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/",
+       test(no_crate_inject, attr(deny(warnings))),
+       test(attr(allow(dead_code, deprecated, unused_variables, unused_mut))))]
 
-use ascii;
+#![no_std]
+
+#![feature(alloc)]
+#![feature(collections)]
+#![feature(libc)]
+#![feature(platform_abstraction_layer)]
+#![feature(question_mark)]
+#![feature(staged_api)]
+
+extern crate alloc;
+extern crate collections;
+extern crate libc;
+extern crate pal_common;
+
+use pal_common::ascii;
 use collections::borrow::{Cow, Borrow};
 use core::cmp::Ordering;
-use error::Error;
+use pal_common::error::Error;
 use core::fmt::{self, Write};
 use core::mem;
-use memchr;
+use pal_common::memchr;
 use core::ops;
-use self::libc::c_char;
+use libc::c_char;
 use core::ptr;
 use core::slice;
 use core::str::{self, Utf8Error};

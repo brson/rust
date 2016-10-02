@@ -36,6 +36,18 @@ name = "build_helper"
 version = "0.1.0"
 
 [[package]]
+name = "c_str"
+version = "0.0.0"
+dependencies = [
+ "alloc 0.0.0",
+ "collections 0.0.0",
+ "core 0.0.0",
+ "libc 0.0.0",
+ "pal_common 0.0.0",
+ "rustc_unicode 0.0.0",
+]
+
+[[package]]
 name = "collections"
 version = "0.0.0"
 dependencies = [
@@ -75,7 +87,6 @@ dependencies = [
  "alloc 0.0.0",
  "collections 0.0.0",
  "core 0.0.0",
- "libc 0.0.0",
  "rustc_unicode 0.0.0",
 ]
 
@@ -135,6 +146,7 @@ dependencies = [
  "alloc_jemalloc 0.0.0",
  "alloc_system 0.0.0",
  "build_helper 0.1.0",
+ "c_str 0.0.0",
  "collections 0.0.0",
  "compiler_builtins 0.0.0",
  "core 0.0.0",
