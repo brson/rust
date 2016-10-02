@@ -39,6 +39,7 @@
 #![feature(unicode)]
 
 extern crate alloc;
+#[macro_use]
 extern crate collections;
 extern crate c_str;
 extern crate libc;
@@ -47,6 +48,7 @@ extern crate rustc_unicode;
 
 pub mod args;
 pub mod condvar;
+pub mod errno;
 pub mod mutex;
 pub mod os_str;
 
