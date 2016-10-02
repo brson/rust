@@ -69,10 +69,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "pal_common"
+version = "0.0.0"
+dependencies = [
+ "core 0.0.0",
+]
+
+[[package]]
 name = "pal_unix"
 version = "0.0.0"
 dependencies = [
  "core 0.0.0",
+ "pal_common 0.0.0",
 ]
 
 [[package]]
@@ -80,6 +88,7 @@ name = "pal_windows"
 version = "0.0.0"
 dependencies = [
  "core 0.0.0",
+ "pal_common 0.0.0",
 ]
 
 [[package]]

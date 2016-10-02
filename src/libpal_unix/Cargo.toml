@@ -10,3 +10,4 @@ crate-type = ["rlib"]
 
 [dependencies]
 core = { path = "../libcore" }
+pal_common = { path = "../libpal_common" }
