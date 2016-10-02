@@ -9,6 +9,7 @@ path = "lib.rs"
 crate-type = ["rlib"]
 
 [dependencies]
+alloc = { path = "../liballoc" }
 collections = { path = "../libcollections" }
 core = { path = "../libcore" }
 c_str = { path = "../libc_str" }

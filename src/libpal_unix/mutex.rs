@@ -8,9 +8,9 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use cell::UnsafeCell;
+use core::cell::UnsafeCell;
 use libc;
-use mem;
+use core::mem;
 
 pub struct Mutex { inner: UnsafeCell<libc::pthread_mutex_t> }
 

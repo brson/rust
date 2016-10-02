@@ -16,6 +16,7 @@ use os::windows::ffi::{OsStrExt, OsStringExt};
 use path::PathBuf;
 use time::Duration;
 
+pub use pal::mutex;
 pub use pal::os::c;
 pub use pal::os_str;
 
@@ -30,7 +31,6 @@ pub mod f64;
 pub mod fs;
 pub mod handle;
 pub mod memchr;
-pub mod mutex;
 pub mod net;
 pub mod os;
 pub mod path;

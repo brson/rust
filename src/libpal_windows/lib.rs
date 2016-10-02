@@ -23,6 +23,7 @@
 
 #![no_std]
 
+#![feature(alloc)]
 #![feature(asm)]
 #![feature(char_escape_debug)]
 #![feature(collections)]
@@ -37,12 +38,14 @@
 #![feature(str_internals)]
 #![feature(unicode)]
 
+extern crate alloc;
 extern crate collections;
 extern crate c_str;
 extern crate libc;
 extern crate pal_common;
 extern crate rustc_unicode;
 
+pub mod mutex;
 pub mod os_str;
 
 // On Windows, use the processor-specific __fastfail mechanism.  In Windows 8

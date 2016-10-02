@@ -24,6 +24,7 @@
 #![no_std]
 
 #![feature(collections)]
+#![feature(const_fn)]
 #![feature(libc)]
 #![feature(pal)]
 #![feature(staged_api)]
@@ -32,6 +33,7 @@ extern crate collections;
 extern crate libc;
 extern crate pal_common;
 
+pub mod mutex;
 pub mod os_str;
 
 // On Unix-like platforms, libc::abort will unregister signal handlers
