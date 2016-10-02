@@ -25,6 +25,7 @@
 
 #![feature(alloc)]
 #![feature(collections)]
+#![feature(fused)]
 #![feature(int_error_internals)]
 #![feature(reflect_marker)]
 #![feature(staged_api)]
@@ -36,4 +37,5 @@ extern crate alloc;
 extern crate collections;
 extern crate rustc_unicode;
 
+pub mod ascii;
 pub mod error;

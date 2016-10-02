@@ -426,6 +426,8 @@ pub use core_collections::vec;
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use rustc_unicode::char;
 #[stable(feature = "rust1", since = "1.0.0")]
+pub use pal_common::ascii;
+#[stable(feature = "rust1", since = "1.0.0")]
 pub use pal_common::error;
 
 pub mod f32;
@@ -433,7 +435,6 @@ pub mod f64;
 
 #[macro_use]
 pub mod thread;
-pub mod ascii;
 pub mod collections;
 pub mod env;
 pub mod ffi;

@@ -12,9 +12,11 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use mem;
-use ops::Range;
-use iter::FusedIterator;
+use collections::string::String;
+use collections::vec::Vec;
+use core::mem;
+use core::ops::Range;
+use core::iter::FusedIterator;
 
 /// Extension methods for ASCII-subset only operations on string slices.
 ///
