@@ -13,3 +13,8 @@ alloc = { path = "../liballoc" }
 collections = { path = "../libcollections" }
 core = { path = "../libcore" }
 rustc_unicode = { path = "../librustc_unicode" }
+
+# FIXME: This should not be a dependency of pal_common since libc should not be
+# assumed to be part of the plattform. At the moment it's only used for the
+# definitions of c_char and strlen
+libc = { path = "../rustc/libc_shim" }

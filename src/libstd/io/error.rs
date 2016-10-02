@@ -12,6 +12,7 @@ use error;
 use fmt;
 use result;
 use sys;
+use pal_common::c_str::NulError;
 
 /// A specialized [`Result`](../result/enum.Result.html) type for I/O
 /// operations.
@@ -509,6 +510,14 @@ impl error::Error for Error {
             Repr::Os(..) => None,
             Repr::Custom(ref c) => c.error.cause(),
         }
+    }
+}
+
+#[stable(feature = "rust1", since = "1.0.0")]
+impl From<NulError> for Error {
+    fn from(_: NulError) -> Error {
+        Error::new(ErrorKind::InvalidInput,
+                   "data provided contains a nul byte")
     }
 }
 

@@ -26,7 +26,9 @@
 #![feature(alloc)]
 #![feature(collections)]
 #![feature(fused)]
+#![feature(libc)] // temporary hack for c_str
 #![feature(int_error_internals)]
+#![feature(question_mark)]
 #![feature(reflect_marker)]
 #![feature(staged_api)]
 #![feature(try_borrow)]
@@ -38,5 +40,6 @@ extern crate collections;
 extern crate rustc_unicode;
 
 pub mod ascii;
+pub mod c_str;
 pub mod error;
 pub mod memchr;
