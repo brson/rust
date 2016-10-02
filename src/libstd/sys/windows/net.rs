@@ -27,11 +27,11 @@ use time::Duration;
 pub type wrlen_t = i32;
 
 pub mod netc {
-    pub use sys::c::*;
-    pub use sys::c::SOCKADDR as sockaddr;
-    pub use sys::c::SOCKADDR_STORAGE_LH as sockaddr_storage;
-    pub use sys::c::ADDRINFOA as addrinfo;
-    pub use sys::c::ADDRESS_FAMILY as sa_family_t;
+    pub use pal::os::c::*;
+    pub use pal::os::c::SOCKADDR as sockaddr;
+    pub use pal::os::c::SOCKADDR_STORAGE_LH as sockaddr_storage;
+    pub use pal::os::c::ADDRINFOA as addrinfo;
+    pub use pal::os::c::ADDRESS_FAMILY as sa_family_t;
 }
 
 pub struct Socket(c::SOCKET);

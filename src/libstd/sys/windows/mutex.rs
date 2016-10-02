@@ -32,8 +32,8 @@
 use cell::UnsafeCell;
 use mem;
 use sync::atomic::{AtomicUsize, Ordering};
-use sys::c;
-use sys::compat;
+use pal::os::c;
+use pal::os::compat;
 
 pub struct Mutex {
     lock: AtomicUsize,

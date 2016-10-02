@@ -23,6 +23,19 @@
 
 #![no_std]
 
-#![deny(missing_docs)]
-
+#![feature(collections)]
+#![feature(const_fn)]
+#![feature(libc)]
+#![feature(pal)]
+#![feature(repr_simd)]
 #![feature(staged_api)]
+
+extern crate collections;
+extern crate c_str;
+extern crate libc;
+
+// Platform-specific functions used by std::sys
+pub mod os {
+    #[macro_use] pub mod compat;
+    pub mod c;
+}
