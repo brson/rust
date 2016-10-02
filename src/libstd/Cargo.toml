@@ -20,6 +20,7 @@ core = { path = "../libcore" }
 libc = { path = "../rustc/libc_shim" }
 rand = { path = "../librand" }
 compiler_builtins = { path = "../libcompiler_builtins" }
+pal_common = { path = "../libpal_common" }
 rustc_unicode = { path = "../librustc_unicode" }
 unwind = { path = "../libunwind" }
 
