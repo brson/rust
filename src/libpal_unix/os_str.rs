@@ -11,11 +11,12 @@
 /// The underlying OsString/OsStr implementation on Unix systems: just
 /// a `Vec<u8>`/`[u8]`.
 
-use borrow::Cow;
-use fmt::{self, Debug};
-use str;
-use mem;
-use sys_common::{AsInner, IntoInner};
+use collections::borrow::Cow;
+use collections::{String, Vec};
+use core::fmt::{self, Debug};
+use core::str;
+use core::mem;
+use pal_common::{AsInner, IntoInner};
 
 #[derive(Clone, Hash)]
 pub struct Buf {

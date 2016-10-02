@@ -23,6 +23,11 @@
 
 #![no_std]
 
-#![deny(missing_docs)]
-
+#![feature(collections)]
+#![feature(pal)]
 #![feature(staged_api)]
+
+extern crate collections;
+extern crate pal_common;
+
+pub mod os_str;
