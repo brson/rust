@@ -53,6 +53,12 @@ impl OsString {
         OsString { inner: Buf::from_string(String::new()) }
     }
 
+    /// Private constructor
+    #[unstable(feature = "pal", reason = "unstable", issue = "0")]
+    pub(crate) fn new_from_buf(buf: Buf) -> OsString {
+        OsString { inner: buf }
+    }
+
     /// Converts to an `OsStr` slice.
     #[stable(feature = "rust1", since = "1.0.0")]
     pub fn as_os_str(&self) -> &OsStr {

@@ -15,9 +15,9 @@
 
 #![allow(dead_code)] // runtime init functions not used during testing
 
-use ffi::OsString;
-use marker::PhantomData;
-use vec;
+use os_str;
+use core::marker::PhantomData;
+use collections::vec;
 
 /// One-time global initialization.
 pub unsafe fn init(argc: isize, argv: *const *const u8) { imp::init(argc, argv) }
@@ -31,13 +31,13 @@ pub fn args() -> Args {
 }
 
 pub struct Args {
-    iter: vec::IntoIter<OsString>,
+    iter: vec::IntoIter<os_str::Buf>,
     _dont_send_or_sync_me: PhantomData<*mut ()>,
 }
 
 impl Iterator for Args {
-    type Item = OsString;
-    fn next(&mut self) -> Option<OsString> { self.iter.next() }
+    type Item = os_str::Buf;
+    fn next(&mut self) -> Option<os_str::Buf> { self.iter.next() }
     fn size_hint(&self) -> (usize, Option<usize>) { self.iter.size_hint() }
 }
 
@@ -46,7 +46,7 @@ impl ExactSizeIterator for Args {
 }
 
 impl DoubleEndedIterator for Args {
-    fn next_back(&mut self) -> Option<OsString> { self.iter.next_back() }
+    fn next_back(&mut self) -> Option<os_str::Buf> { self.iter.next_back() }
 }
 
 #[cfg(any(target_os = "linux",
@@ -60,10 +60,10 @@ impl DoubleEndedIterator for Args {
           target_os = "emscripten",
           target_os = "haiku"))]
 mod imp {
-    use os::unix::prelude::*;
-    use mem;
-    use ffi::{CStr, OsString};
-    use marker::PhantomData;
+    use core::mem;
+    use c_str::CStr;
+    use os_str;
+    use core::marker::PhantomData;
     use libc;
     use super::Args;
 

@@ -273,6 +273,7 @@
 #![feature(pal)]
 #![feature(panic_unwind)]
 #![feature(placement_in_syntax)]
+#![feature(pub_restricted)]
 #![feature(prelude_import)]
 #![feature(question_mark)]
 #![feature(rand)]

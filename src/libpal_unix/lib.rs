@@ -28,6 +28,8 @@
 #![feature(staged_api)]
 
 extern crate collections;
+extern crate c_str;
 extern crate pal_common;
 
+pub mod args;
 pub mod os_str;

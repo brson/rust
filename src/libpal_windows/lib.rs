@@ -41,6 +41,7 @@ extern crate libc;
 extern crate pal_common;
 extern crate rustc_unicode;
 
+pub mod args;
 pub mod os_str;
 
 // Platform-specific functions used by std::sys
