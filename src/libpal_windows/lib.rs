@@ -23,19 +23,27 @@
 
 #![no_std]
 
+#![feature(char_escape_debug)]
 #![feature(collections)]
 #![feature(const_fn)]
 #![feature(libc)]
 #![feature(pal)]
+#![feature(question_mark)]
 #![feature(repr_simd)]
+#![feature(slice_patterns)]
 #![feature(staged_api)]
+#![feature(str_internals)]
+#![feature(unicode)]
 
 extern crate collections;
 extern crate c_str;
 extern crate libc;
+extern crate pal_common;
+extern crate rustc_unicode;
 
 // Platform-specific functions used by std::sys
 pub mod os {
     #[macro_use] pub mod compat;
     pub mod c;
+    pub mod wtf8;
 }

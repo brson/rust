@@ -26,18 +26,18 @@
 #![allow(dead_code)]
 
 use core::str::next_code_point;
-
-use ascii::*;
-use borrow::Cow;
-use char;
-use fmt;
-use hash::{Hash, Hasher};
-use iter::FromIterator;
-use mem;
-use ops;
-use slice;
-use str;
-use sys_common::AsInner;
+use pal_common::ascii::*;
+use collections::borrow::Cow;
+use rustc_unicode::char;
+use core::fmt;
+use core::hash::{Hash, Hasher};
+use core::iter::FromIterator;
+use core::mem;
+use core::ops;
+use core::slice;
+use core::str;
+use pal_common::AsInner;
+use collections::{String, Vec};
 
 const UTF8_REPLACEMENT_CHARACTER: &'static [u8] = b"\xEF\xBF\xBD";
 
@@ -389,7 +389,7 @@ impl AsInner<[u8]> for Wtf8 {
 impl fmt::Debug for Wtf8 {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         fn write_str_escaped(f: &mut fmt::Formatter, s: &str) -> fmt::Result {
-            use fmt::Write;
+            use core::fmt::Write;
             for c in s.chars().flat_map(|c| c.escape_debug()) {
                 f.write_char(c)?
             }
