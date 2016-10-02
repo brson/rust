@@ -29,9 +29,7 @@ use sys::time;
 use sys_common::FromInner;
 
 #[stable(feature = "time", since = "1.3.0")]
-pub use self::duration::Duration;
-
-mod duration;
+pub use pal_common::duration::Duration;
 
 /// A measurement of a monotonically increasing clock.
 ///  Opaque and useful only with `Duration`.

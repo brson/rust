@@ -38,6 +38,7 @@ extern crate collections;
 extern crate rustc_unicode;
 
 pub mod ascii;
+pub mod duration;
 pub mod error;
 pub mod memchr;
 
