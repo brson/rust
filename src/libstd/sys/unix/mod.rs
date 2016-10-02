@@ -31,6 +31,7 @@ pub use pal::args;
 pub use pal::condvar;
 pub use pal::mutex;
 pub use pal::os_str;
+pub use pal::rwlock;
 
 #[macro_use]
 pub mod weak;
@@ -52,7 +53,6 @@ pub mod path;
 pub mod pipe;
 pub mod process;
 pub mod rand;
-pub mod rwlock;
 pub mod stack_overflow;
 pub mod thread;
 pub mod thread_local;

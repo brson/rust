@@ -42,6 +42,7 @@ pub mod condvar;
 pub mod errno;
 pub mod mutex;
 pub mod os_str;
+pub mod rwlock;
 
 // On Unix-like platforms, libc::abort will unregister signal handlers
 // including the SIGABRT handler, preventing the abort from being blocked, and

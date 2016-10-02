@@ -9,8 +9,8 @@
 // except according to those terms.
 
 use libc;
-use cell::UnsafeCell;
-use sync::atomic::{AtomicUsize, Ordering};
+use core::cell::UnsafeCell;
+use core::sync::atomic::{AtomicUsize, Ordering};
 
 pub struct RWLock {
     inner: UnsafeCell<libc::pthread_rwlock_t>,

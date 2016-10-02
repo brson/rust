@@ -8,8 +8,8 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use cell::UnsafeCell;
-use sys::c;
+use core::cell::UnsafeCell;
+use os::c;
 
 pub struct RWLock { inner: UnsafeCell<c::SRWLOCK> }
 

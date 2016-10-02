@@ -51,6 +51,7 @@ pub mod condvar;
 pub mod errno;
 pub mod mutex;
 pub mod os_str;
+pub mod rwlock;
 
 // On Windows, use the processor-specific __fastfail mechanism.  In Windows 8
 // and later, this will terminate the process immediately without running any
