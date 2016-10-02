@@ -21,9 +21,10 @@
 //! manner we pay a semi-large one-time cost up front for detecting whether a
 //! function is available but afterwards it's just a load and a jump.
 
-use ffi::CString;
-use sync::atomic::{AtomicUsize, Ordering};
-use sys::c;
+use c_str::CString;
+use collections::vec::Vec;
+use core::sync::atomic::{AtomicUsize, Ordering};
+use os::c;
 
 pub fn lookup(module: &str, symbol: &str) -> Option<usize> {
     let mut module: Vec<u16> = module.encode_utf16().collect();
@@ -54,14 +55,14 @@ macro_rules! compat_fn {
     )*) => ($(
         #[allow(unused_variables)]
         pub unsafe fn $symbol($($argname: $argtype),*) -> $rettype {
-            use sync::atomic::{AtomicUsize, Ordering};
-            use mem;
+            use core::sync::atomic::{AtomicUsize, Ordering};
+            use core::mem;
             type F = unsafe extern "system" fn($($argtype),*) -> $rettype;
 
             static PTR: AtomicUsize = AtomicUsize::new(0);
 
             fn load() -> usize {
-                ::sys::compat::store_func(&PTR,
+                ::os::compat::store_func(&PTR,
                                           stringify!($module),
                                           stringify!($symbol),
                                           fallback as usize)

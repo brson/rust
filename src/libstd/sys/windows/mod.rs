@@ -16,11 +16,10 @@ use os::windows::ffi::{OsStrExt, OsStringExt};
 use path::PathBuf;
 use time::Duration;
 
-#[macro_use] pub mod compat;
+pub use pal::os::c;
 
 pub mod args;
 pub mod backtrace;
-pub mod c;
 pub mod condvar;
 pub mod dynamic_lib;
 pub mod env;

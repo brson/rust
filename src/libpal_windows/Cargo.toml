@@ -9,5 +9,8 @@ path = "lib.rs"
 crate-type = ["rlib"]
 
 [dependencies]
+collections = { path = "../libcollections" }
 core = { path = "../libcore" }
+c_str = { path = "../libc_str" }
+libc = { path = "../rustc/libc_shim" }
 pal_common = { path = "../libpal_common" }

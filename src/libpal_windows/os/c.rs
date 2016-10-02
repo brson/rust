@@ -12,12 +12,11 @@
 
 #![allow(bad_style)]
 #![cfg_attr(test, allow(dead_code))]
-#![unstable(issue = "0", feature = "windows_c")]
 
-use os::raw::{c_int, c_uint, c_ulong, c_long, c_longlong, c_ushort,};
-use os::raw::{c_char, c_ulonglong};
+use libc::{c_int, c_uint, c_ulong, c_long, c_longlong, c_ushort,};
+use libc::{c_char, c_ulonglong};
 use libc::{wchar_t, size_t, c_void};
-use ptr;
+use core::ptr;
 
 #[repr(simd)]
 #[repr(C)]
@@ -75,7 +74,11 @@ pub type PCONDITION_VARIABLE = *mut CONDITION_VARIABLE;
 pub type PLARGE_INTEGER = *mut c_longlong;
 pub type PSRWLOCK = *mut SRWLOCK;
 
-pub type SOCKET = ::os::windows::raw::SOCKET;
+#[cfg(target_pointer_width = "32")]
+pub type SOCKET = u32;
+#[cfg(target_pointer_width = "64")]
+pub type SOCKET = u64;
+
 pub type socklen_t = c_int;
 pub type ADDRESS_FAMILY = USHORT;
 
@@ -420,7 +423,7 @@ pub struct MOUNT_POINT_REPARSE_BUFFER {
     pub PathBuffer: WCHAR,
 }
 
-pub type LPPROGRESS_ROUTINE = ::option::Option<unsafe extern "system" fn(
+pub type LPPROGRESS_ROUTINE = Option<unsafe extern "system" fn(
     TotalFileSize: LARGE_INTEGER,
     TotalBytesTransferred: LARGE_INTEGER,
     StreamSize: LARGE_INTEGER,
