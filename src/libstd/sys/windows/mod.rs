@@ -17,6 +17,7 @@ use path::PathBuf;
 
 pub use pal::args;
 pub use pal::condvar;
+pub use pal::env;
 pub use pal::memchr;
 pub use pal::mutex;
 pub use pal::os::c;
@@ -25,7 +26,6 @@ pub use pal::rwlock;
 
 pub mod backtrace;
 pub mod dynamic_lib;
-pub mod env;
 pub mod ext;
 pub mod f32;
 pub mod f64;

@@ -48,6 +48,7 @@ extern crate rustc_unicode;
 
 pub mod args;
 pub mod condvar;
+pub mod env;
 pub mod errno;
 pub mod memchr;
 pub mod mutex;
