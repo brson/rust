@@ -17,6 +17,7 @@ use path::PathBuf;
 
 pub use pal::args;
 pub use pal::condvar;
+pub use pal::memchr;
 pub use pal::mutex;
 pub use pal::os::c;
 pub use pal::os_str;
@@ -30,7 +31,6 @@ pub mod f32;
 pub mod f64;
 pub mod fs;
 pub mod handle;
-pub mod memchr;
 pub mod net;
 pub mod os;
 pub mod path;

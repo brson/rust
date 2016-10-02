@@ -29,6 +29,7 @@ use libc;
 
 pub use pal::args;
 pub use pal::condvar;
+pub use pal::memchr;
 pub use pal::mutex;
 pub use pal::os_str;
 pub use pal::rwlock;
@@ -46,7 +47,6 @@ pub mod f64;
 pub mod fast_thread_local;
 pub mod fd;
 pub mod fs;
-pub mod memchr;
 pub mod net;
 pub mod os;
 pub mod path;

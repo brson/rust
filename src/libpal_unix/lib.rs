@@ -40,6 +40,7 @@ extern crate pal_common;
 pub mod args;
 pub mod condvar;
 pub mod errno;
+pub mod memchr;
 pub mod mutex;
 pub mod os_str;
 pub mod rwlock;
