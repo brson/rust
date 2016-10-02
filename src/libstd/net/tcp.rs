@@ -265,14 +265,17 @@ impl<'a> Write for &'a TcpStream {
     fn flush(&mut self) -> io::Result<()> { Ok(()) }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<net_imp::TcpStream> for TcpStream {
     fn as_inner(&self) -> &net_imp::TcpStream { &self.0 }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<net_imp::TcpStream> for TcpStream {
     fn from_inner(inner: net_imp::TcpStream) -> TcpStream { TcpStream(inner) }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<net_imp::TcpStream> for TcpStream {
     fn into_inner(self) -> net_imp::TcpStream { self.0 }
 }
@@ -407,16 +410,19 @@ impl<'a> Iterator for Incoming<'a> {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<net_imp::TcpListener> for TcpListener {
     fn as_inner(&self) -> &net_imp::TcpListener { &self.0 }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<net_imp::TcpListener> for TcpListener {
     fn from_inner(inner: net_imp::TcpListener) -> TcpListener {
         TcpListener(inner)
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<net_imp::TcpListener> for TcpListener {
     fn into_inner(self) -> net_imp::TcpListener { self.0 }
 }

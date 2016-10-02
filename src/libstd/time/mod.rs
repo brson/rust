@@ -331,6 +331,7 @@ impl fmt::Display for SystemTimeError {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<time::SystemTime> for SystemTime {
     fn from_inner(time: time::SystemTime) -> SystemTime {
         SystemTime(time)

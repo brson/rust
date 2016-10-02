@@ -30,6 +30,8 @@
 //! inter-dependencies within `std` that will be a challenging goal to
 //! achieve.
 
+#![unstable(feature = "pal", reason = "unstable", issue = "0")]
+
 pub use self::imp::*;
 
 #[cfg(unix)]

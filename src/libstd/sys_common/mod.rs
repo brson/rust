@@ -23,6 +23,7 @@
 //! `std::sys` from the standard library.
 
 #![allow(missing_docs)]
+#![unstable(feature = "pal", reason = "unstable", issue = "0")]
 
 use sync::Once;
 use sys;
@@ -48,31 +49,7 @@ pub mod wtf8;
           all(windows, target_env = "gnu")))]
 pub mod gnu;
 
-// common error constructors
-
-/// A trait for viewing representations from std types
-#[doc(hidden)]
-pub trait AsInner<Inner: ?Sized> {
-    fn as_inner(&self) -> &Inner;
-}
-
-/// A trait for viewing representations from std types
-#[doc(hidden)]
-pub trait AsInnerMut<Inner: ?Sized> {
-    fn as_inner_mut(&mut self) -> &mut Inner;
-}
-
-/// A trait for extracting representations from std types
-#[doc(hidden)]
-pub trait IntoInner<Inner> {
-    fn into_inner(self) -> Inner;
-}
-
-/// A trait for creating std types from internal representations
-#[doc(hidden)]
-pub trait FromInner<Inner> {
-    fn from_inner(inner: Inner) -> Self;
-}
+pub use pal_common::{AsInner, AsInnerMut, IntoInner, FromInner};
 
 /// Enqueues a procedure to run when the main thread exits.
 ///

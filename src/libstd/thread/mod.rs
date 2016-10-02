@@ -724,10 +724,12 @@ impl<T> JoinHandle<T> {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl<T> AsInner<imp::Thread> for JoinHandle<T> {
     fn as_inner(&self) -> &imp::Thread { self.0.native.as_ref().unwrap() }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl<T> IntoInner<imp::Thread> for JoinHandle<T> {
     fn into_inner(self) -> imp::Thread { self.0.native.unwrap() }
 }
