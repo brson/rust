@@ -40,6 +40,7 @@ extern crate rustc_unicode;
 pub mod ascii;
 pub mod duration;
 pub mod error;
+pub mod io_error;
 pub mod memchr;
 
 // common error constructors

@@ -256,6 +256,7 @@
 #![feature(fused)]
 #![feature(hashmap_hasher)]
 #![feature(heap_api)]
+#![feature(io_error_internals)]
 #![feature(inclusive_range)]
 #![feature(int_error_internals)]
 #![feature(into_cow)]
