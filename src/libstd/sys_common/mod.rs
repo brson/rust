@@ -49,20 +49,7 @@ pub mod util;
 pub mod gnu;
 
 pub use pal_common::{AsInner, AsInnerMut, IntoInner, FromInner};
-
-/// Enqueues a procedure to run when the main thread exits.
-///
-/// Currently these closures are only run once the main *Rust* thread exits.
-/// Once the `at_exit` handlers begin running, more may be enqueued, but not
-/// infinitely so. Eventually a handler registration will be forced to fail.
-///
-/// Returns `Ok` if the handler was successfully registered, meaning that the
-/// closure will be run once the main thread exits. Returns `Err` to indicate
-/// that the closure could not be registered, meaning that it is not scheduled
-/// to be run.
-pub fn at_exit<F: FnOnce() + Send + 'static>(f: F) -> Result<(), ()> {
-    if at_exit_imp::push(Box::new(f)) {Ok(())} else {Err(())}
-}
+pub use self::at_exit_imp::at_exit;
 
 macro_rules! rtabort {
     ($($t:tt)*) => (::sys_common::util::abort(format_args!($($t)*)))
