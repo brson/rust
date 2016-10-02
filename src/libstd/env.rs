@@ -634,7 +634,9 @@ impl DoubleEndedIterator for Args {
 #[stable(feature = "env", since = "1.0.0")]
 impl Iterator for ArgsOs {
     type Item = OsString;
-    fn next(&mut self) -> Option<OsString> { self.inner.next() }
+    fn next(&mut self) -> Option<OsString> {
+        self.inner.next().map(OsString::new_from_buf)
+    }
     fn size_hint(&self) -> (usize, Option<usize>) { self.inner.size_hint() }
 }
 
@@ -645,7 +647,9 @@ impl ExactSizeIterator for ArgsOs {
 
 #[stable(feature = "env_iterators", since = "1.11.0")]
 impl DoubleEndedIterator for ArgsOs {
-    fn next_back(&mut self) -> Option<OsString> { self.inner.next_back() }
+    fn next_back(&mut self) -> Option<OsString> {
+        self.inner.next_back().map(OsString::new_from_buf)
+    }
 }
 /// Constants associated with the current target
 #[stable(feature = "env", since = "1.0.0")]

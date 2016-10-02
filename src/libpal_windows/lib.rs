@@ -45,6 +45,7 @@ extern crate libc;
 extern crate pal_common;
 extern crate rustc_unicode;
 
+pub mod args;
 pub mod mutex;
 pub mod os_str;
 

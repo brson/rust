@@ -23,16 +23,21 @@
 
 #![no_std]
 
+#![feature(alloc)]
+#![feature(box_syntax)]
 #![feature(collections)]
 #![feature(const_fn)]
 #![feature(libc)]
 #![feature(pal)]
 #![feature(staged_api)]
 
+extern crate alloc;
 extern crate collections;
+extern crate c_str;
 extern crate libc;
 extern crate pal_common;
 
+pub mod args;
 pub mod mutex;
 pub mod os_str;
 

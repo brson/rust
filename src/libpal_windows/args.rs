@@ -9,13 +9,14 @@
 // except according to those terms.
 
 #![allow(dead_code)] // runtime init functions not used during testing
+#![allow(non_snake_case)]
 
-use os::windows::prelude::*;
-use sys::c;
-use slice;
-use ops::Range;
-use ffi::OsString;
+use os::c;
+use core::slice;
+use core::ops::Range;
+use os_str;
 use libc::{c_int, c_void};
+use os::wtf8::Wtf8Buf;
 
 pub unsafe fn init(_argc: isize, _argv: *const *const u8) { }
 
@@ -39,26 +40,26 @@ pub struct Args {
     cur: *mut *mut u16,
 }
 
-unsafe fn os_string_from_ptr(ptr: *mut u16) -> OsString {
+unsafe fn os_string_from_ptr(ptr: *mut u16) -> os_str::Buf {
     let mut len = 0;
     while *ptr.offset(len) != 0 { len += 1; }
 
     // Push it onto the list.
     let ptr = ptr as *const u16;
     let buf = slice::from_raw_parts(ptr, len as usize);
-    OsStringExt::from_wide(buf)
+    os_str::Buf { inner: Wtf8Buf::from_wide(buf) }
 }
 
 impl Iterator for Args {
-    type Item = OsString;
-    fn next(&mut self) -> Option<OsString> {
+    type Item = os_str::Buf;
+    fn next(&mut self) -> Option<os_str::Buf> {
         self.range.next().map(|i| unsafe { os_string_from_ptr(*self.cur.offset(i)) } )
     }
     fn size_hint(&self) -> (usize, Option<usize>) { self.range.size_hint() }
 }
 
 impl DoubleEndedIterator for Args {
-    fn next_back(&mut self) -> Option<OsString> {
+    fn next_back(&mut self) -> Option<os_str::Buf> {
         self.range.next_back().map(|i| unsafe { os_string_from_ptr(*self.cur.offset(i)) } )
     }
 }

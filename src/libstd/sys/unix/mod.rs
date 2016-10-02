@@ -27,13 +27,13 @@ use libc;
 #[cfg(target_os = "solaris")]   pub use os::solaris as platform;
 #[cfg(target_os = "emscripten")] pub use os::emscripten as platform;
 
+pub use pal::args;
 pub use pal::mutex;
 pub use pal::os_str;
 
 #[macro_use]
 pub mod weak;
 
-pub mod args;
 pub mod android;
 #[cfg(any(not(cargobuild), feature = "backtrace"))]
 pub mod backtrace;

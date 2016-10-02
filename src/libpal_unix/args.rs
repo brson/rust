@@ -15,9 +15,9 @@
 
 #![allow(dead_code)] // runtime init functions not used during testing
 
-use ffi::OsString;
-use marker::PhantomData;
-use vec;
+use os_str;
+use core::marker::PhantomData;
+use collections::vec;
 
 /// One-time global initialization.
 pub unsafe fn init(argc: isize, argv: *const *const u8) { imp::init(argc, argv) }
@@ -31,13 +31,13 @@ pub fn args() -> Args {
 }
 
 pub struct Args {
-    iter: vec::IntoIter<OsString>,
+    iter: vec::IntoIter<os_str::Buf>,
     _dont_send_or_sync_me: PhantomData<*mut ()>,
 }
 
 impl Iterator for Args {
-    type Item = OsString;
-    fn next(&mut self) -> Option<OsString> { self.iter.next() }
+    type Item = os_str::Buf;
+    fn next(&mut self) -> Option<os_str::Buf> { self.iter.next() }
     fn size_hint(&self) -> (usize, Option<usize>) { self.iter.size_hint() }
 }
 
@@ -46,7 +46,7 @@ impl ExactSizeIterator for Args {
 }
 
 impl DoubleEndedIterator for Args {
-    fn next_back(&mut self) -> Option<OsString> { self.iter.next_back() }
+    fn next_back(&mut self) -> Option<os_str::Buf> { self.iter.next_back() }
 }
 
 #[cfg(any(target_os = "linux",
@@ -60,14 +60,16 @@ impl DoubleEndedIterator for Args {
           target_os = "emscripten",
           target_os = "haiku"))]
 mod imp {
-    use os::unix::prelude::*;
-    use mem;
-    use ffi::{CStr, OsString};
-    use marker::PhantomData;
+    use alloc::boxed::Box;
+    use core::mem;
+    use c_str::CStr;
+    use os_str;
+    use core::marker::PhantomData;
     use libc;
     use super::Args;
+    use collections::Vec;
 
-    use sys_common::mutex::Mutex;
+    use mutex::Mutex;
 
     static mut GLOBAL_ARGS_PTR: usize = 0;
     static LOCK: Mutex = Mutex::new();
@@ -92,8 +94,8 @@ mod imp {
 
     pub fn args() -> Args {
         let bytes = clone().unwrap_or(Vec::new());
-        let v: Vec<OsString> = bytes.into_iter().map(|v| {
-            OsStringExt::from_vec(v)
+        let v: Vec<os_str::Buf> = bytes.into_iter().map(|v| {
+            os_str::Buf { inner: v }
         }).collect();
         Args { iter: v.into_iter(), _dont_send_or_sync_me: PhantomData }
     }
@@ -121,6 +123,7 @@ mod imp {
     use marker::PhantomData;
     use libc;
     use super::Args;
+    use collections::Vec;
 
     pub unsafe fn init(_argc: isize, _argv: *const *const u8) {
     }
@@ -130,7 +133,6 @@ mod imp {
 
     #[cfg(target_os = "macos")]
     pub fn args() -> Args {
-        use os::unix::prelude::*;
         extern {
             // These functions are in crt_externs.h.
             fn _NSGetArgc() -> *mut libc::c_int;
@@ -142,7 +144,7 @@ mod imp {
                                 *_NSGetArgv() as *const *const libc::c_char);
             (0.. argc as isize).map(|i| {
                 let bytes = CStr::from_ptr(*argv.offset(i)).to_bytes().to_vec();
-                OsStringExt::from_vec(bytes)
+                os_str::Buf { inner: bytes }
             }).collect::<Vec<_>>()
         };
         Args {
@@ -202,7 +204,7 @@ mod imp {
                 let utf_c_str: *const libc::c_char =
                     mem::transmute(objc_msgSend(tmp, utf8_sel));
                 let bytes = CStr::from_ptr(utf_c_str).to_bytes();
-                res.push(OsString::from(str::from_utf8(bytes).unwrap()))
+                res.push(os_str::Buf::from_string(str::from_utf8(bytes).unwrap().to_string()))
             }
         }
 

@@ -93,6 +93,8 @@ dependencies = [
 name = "pal_unix"
 version = "0.0.0"
 dependencies = [
+ "alloc 0.0.0",
+ "c_str 0.0.0",
  "collections 0.0.0",
  "core 0.0.0",
  "libc 0.0.0",
