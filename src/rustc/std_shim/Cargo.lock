@@ -93,7 +93,9 @@ dependencies = [
 name = "pal_unix"
 version = "0.0.0"
 dependencies = [
+ "collections 0.0.0",
  "core 0.0.0",
+ "pal_common 0.0.0",
 ]
 
 [[package]]

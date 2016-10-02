@@ -11,11 +11,12 @@
 /// The underlying OsString/OsStr implementation on Windows is a
 /// wrapper around the "WTF-8" encoding; see the `wtf8` module for more.
 
-use borrow::Cow;
-use fmt::{self, Debug};
-use pal::os::wtf8::{Wtf8, Wtf8Buf};
-use mem;
-use sys_common::{AsInner, IntoInner};
+use collections::borrow::Cow;
+use collections::String;
+use core::fmt::{self, Debug};
+use core::mem;
+use os::wtf8::{Wtf8, Wtf8Buf};
+use pal_common::{AsInner, IntoInner};
 
 #[derive(Clone, Hash)]
 pub struct Buf {

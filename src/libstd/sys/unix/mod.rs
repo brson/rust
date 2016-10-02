@@ -27,6 +27,8 @@ use libc;
 #[cfg(target_os = "solaris")]   pub use os::solaris as platform;
 #[cfg(target_os = "emscripten")] pub use os::emscripten as platform;
 
+pub use pal::os_str;
+
 #[macro_use]
 pub mod weak;
 
@@ -44,7 +46,6 @@ pub mod memchr;
 pub mod mutex;
 pub mod net;
 pub mod os;
-pub mod os_str;
 pub mod path;
 pub mod pipe;
 pub mod process;

@@ -17,6 +17,7 @@ use path::PathBuf;
 use time::Duration;
 
 pub use pal::os::c;
+pub use pal::os_str;
 
 pub mod args;
 pub mod backtrace;
@@ -30,7 +31,6 @@ pub mod memchr;
 pub mod mutex;
 pub mod net;
 pub mod os;
-pub mod os_str;
 pub mod path;
 pub mod pipe;
 pub mod process;
