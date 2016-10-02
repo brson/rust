@@ -11,7 +11,7 @@
 //! Platform abstraction layer for Windows
 
 #![crate_name = "pal_windows"]
-#![unstable(feature = "platform_abstraction_layer", reason = "unstable", issue = "0")]
+#![unstable(feature = "pal", reason = "unstable", issue = "0")]
 #![crate_type = "rlib"]
 #![doc(html_logo_url = "https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png",
        html_favicon_url = "https://doc.rust-lang.org/favicon.ico",

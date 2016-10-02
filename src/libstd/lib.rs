@@ -270,7 +270,7 @@
 #![feature(on_unimplemented)]
 #![feature(oom)]
 #![feature(optin_builtin_traits)]
-#![feature(platform_abstraction_layer)]
+#![feature(pal)]
 #![feature(panic_unwind)]
 #![feature(placement_in_syntax)]
 #![feature(prelude_import)]
