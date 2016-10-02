@@ -39,3 +39,4 @@ extern crate rustc_unicode;
 
 pub mod ascii;
 pub mod error;
+pub mod memchr;
