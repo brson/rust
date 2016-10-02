@@ -73,7 +73,7 @@ impl Thread {
 
     pub fn sleep(dur: Duration) {
         unsafe {
-            c::Sleep(super::dur2timeout(dur))
+            c::Sleep(::pal::os::dur2timeout(dur))
         }
     }
 

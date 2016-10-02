@@ -169,7 +169,7 @@ impl Socket {
                        kind: c_int) -> io::Result<()> {
         let timeout = match dur {
             Some(dur) => {
-                let timeout = sys::dur2timeout(dur);
+                let timeout = ::pal::os::dur2timeout(dur);
                 if timeout == 0 {
                     return Err(io::Error::new(io::ErrorKind::InvalidInput,
                                               "cannot set a 0 duration timeout"));

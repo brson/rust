@@ -14,15 +14,14 @@ use ffi::{OsStr, OsString};
 use io::{self, ErrorKind};
 use os::windows::ffi::{OsStrExt, OsStringExt};
 use path::PathBuf;
-use time::Duration;
 
 pub use pal::args;
+pub use pal::condvar;
 pub use pal::mutex;
 pub use pal::os::c;
 pub use pal::os_str;
 
 pub mod backtrace;
-pub mod condvar;
 pub mod dynamic_lib;
 pub mod env;
 pub mod ext;
@@ -200,26 +199,5 @@ pub fn cvt<I: IsZero>(i: I) -> io::Result<I> {
     } else {
         Ok(i)
     }
-}
-
-pub fn dur2timeout(dur: Duration) -> c::DWORD {
-    // Note that a duration is a (u64, u32) (seconds, nanoseconds) pair, and the
-    // timeouts in windows APIs are typically u32 milliseconds. To translate, we
-    // have two pieces to take care of:
-    //
-    // * Nanosecond precision is rounded up
-    // * Greater than u32::MAX milliseconds (50 days) is rounded up to INFINITE
-    //   (never time out).
-    dur.as_secs().checked_mul(1000).and_then(|ms| {
-        ms.checked_add((dur.subsec_nanos() as u64) / 1_000_000)
-    }).and_then(|ms| {
-        ms.checked_add(if dur.subsec_nanos() % 1_000_000 > 0 {1} else {0})
-    }).map(|ms| {
-        if ms > <c::DWORD>::max_value() as u64 {
-            c::INFINITE
-        } else {
-            ms as c::DWORD
-        }
-    }).unwrap_or(c::INFINITE)
 }
 

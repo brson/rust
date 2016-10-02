@@ -8,11 +8,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use cell::UnsafeCell;
-use sys::c;
-use sys::mutex::{self, Mutex};
-use sys::os;
-use time::Duration;
+use core::cell::UnsafeCell;
+use os::c;
+use mutex::{self, Mutex};
+use pal_common::duration::Duration;
 
 pub struct Condvar { inner: UnsafeCell<c::CONDITION_VARIABLE> }
 
@@ -39,10 +38,10 @@ impl Condvar {
     pub unsafe fn wait_timeout(&self, mutex: &Mutex, dur: Duration) -> bool {
         let r = c::SleepConditionVariableSRW(self.inner.get(),
                                              mutex::raw(mutex),
-                                             super::dur2timeout(dur),
+                                             super::os::dur2timeout(dur),
                                              0);
         if r == 0 {
-            debug_assert_eq!(os::errno() as usize, c::ERROR_TIMEOUT as usize);
+            debug_assert_eq!(c::GetLastError(), c::ERROR_TIMEOUT);
             false
         } else {
             true

@@ -28,6 +28,7 @@ use libc;
 #[cfg(target_os = "emscripten")] pub use os::emscripten as platform;
 
 pub use pal::args;
+pub use pal::condvar;
 pub use pal::mutex;
 pub use pal::os_str;
 
@@ -37,7 +38,6 @@ pub mod weak;
 pub mod android;
 #[cfg(any(not(cargobuild), feature = "backtrace"))]
 pub mod backtrace;
-pub mod condvar;
 pub mod env;
 pub mod ext;
 pub mod f32;

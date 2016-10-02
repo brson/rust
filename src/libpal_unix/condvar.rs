@@ -8,10 +8,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use cell::UnsafeCell;
+use core::cell::UnsafeCell;
 use libc;
-use sys::mutex::{self, Mutex};
-use time::Duration;
+use mutex::{self, Mutex};
+use pal_common::duration::Duration;
 
 pub struct Condvar { inner: UnsafeCell<libc::pthread_cond_t> }
 
@@ -35,7 +35,7 @@ impl Condvar {
 
     #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "android")))]
     pub unsafe fn init(&mut self) {
-        use mem;
+        use core::mem;
         let mut attr: libc::pthread_condattr_t = mem::uninitialized();
         let r = libc::pthread_condattr_init(&mut attr);
         assert_eq!(r, 0);
@@ -71,7 +71,7 @@ impl Condvar {
     // from changes made to the system time.
     #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "android")))]
     pub unsafe fn wait_timeout(&self, mutex: &Mutex, dur: Duration) -> bool {
-        use mem;
+        use core::mem;
 
         let mut now: libc::timespec = mem::zeroed();
         let r = libc::clock_gettime(libc::CLOCK_MONOTONIC, &mut now);

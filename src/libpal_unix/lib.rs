@@ -38,6 +38,7 @@ extern crate libc;
 extern crate pal_common;
 
 pub mod args;
+pub mod condvar;
 pub mod mutex;
 pub mod os_str;
 
