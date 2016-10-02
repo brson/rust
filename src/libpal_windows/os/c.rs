@@ -8,14 +8,14 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! C definitions used by libnative that don't belong in liblibc
+//! C definitions used by the pal that don't belong in liblibc
 
 #![allow(bad_style)]
 #![cfg_attr(test, allow(dead_code))]
 #![unstable(issue = "0", feature = "windows_c")]
 
-use os::raw::{c_int, c_uint, c_ulong, c_long, c_longlong, c_ushort,};
-use os::raw::{c_char, c_ulonglong};
+use libc::{c_int, c_uint, c_ulong, c_long, c_longlong, c_ushort,};
+use libc::{c_char, c_ulonglong};
 use libc::{wchar_t, size_t, c_void};
 use ptr;
 

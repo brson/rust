@@ -31,13 +31,14 @@ pub use panicking::{begin_panic, begin_panic_fmt, update_panic_count};
 #[lang = "start"]
 fn lang_start(main: *const u8, argc: isize, argv: *const *const u8) -> isize {
     use mem;
+    use pal;
     use panic;
     use sys;
     use sys_common;
     use sys_common::thread_info::{self, NewThread};
     use thread::Thread;
 
-    sys::init();
+    pal::init();
 
     let failed = unsafe {
         let main_guard = sys::thread::guard::init();

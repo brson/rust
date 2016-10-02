@@ -381,7 +381,7 @@ impl Command {
             t!(cvt(libc::sigemptyset(&mut set)));
             t!(cvt(libc::pthread_sigmask(libc::SIG_SETMASK, &set,
                                          ptr::null_mut())));
-            let ret = super::signal(libc::SIGPIPE, libc::SIG_DFL);
+            let ret = ::pal::os::signal(libc::SIGPIPE, libc::SIG_DFL);
             if ret == libc::SIG_ERR {
                 return io::Error::last_os_error()
             }

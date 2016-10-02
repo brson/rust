@@ -16,11 +16,10 @@ use os::windows::ffi::{OsStrExt, OsStringExt};
 use path::PathBuf;
 use time::Duration;
 
-#[macro_use] pub mod compat;
+pub use pal::os::c;
 
 pub mod args;
 pub mod backtrace;
-pub mod c;
 pub mod condvar;
 pub mod dynamic_lib;
 pub mod env;
@@ -42,28 +41,6 @@ pub mod thread;
 pub mod thread_local;
 pub mod time;
 pub mod stdio;
-
-#[cfg(not(test))]
-pub fn init() {
-    ::alloc::oom::set_oom_handler(oom_handler);
-
-    // See comment in sys/unix/mod.rs
-    fn oom_handler() -> ! {
-        use intrinsics;
-        use ptr;
-        let msg = "fatal runtime error: out of memory\n";
-        unsafe {
-            // WriteFile silently fails if it is passed an invalid handle, so
-            // there is no need to check the result of GetStdHandle.
-            c::WriteFile(c::GetStdHandle(c::STD_ERROR_HANDLE),
-                         msg.as_ptr() as c::LPVOID,
-                         msg.len() as c::DWORD,
-                         ptr::null_mut(),
-                         ptr::null_mut());
-            intrinsics::abort();
-        }
-    }
-}
 
 pub fn decode_error_kind(errno: i32) -> ErrorKind {
     match errno as c::DWORD {

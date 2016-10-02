@@ -23,6 +23,62 @@
 
 #![no_std]
 
-#![deny(missing_docs)]
-
+#![feature(alloc)]
+#![feature(core_intrinsics)]
+#![feature(libc)]
+#![feature(oom)]
 #![feature(staged_api)]
+
+extern crate alloc;
+extern crate libc;
+
+pub mod android;
+
+pub fn init() {
+    use alloc::oom;
+
+    // By default, some platforms will send a *signal* when an EPIPE error
+    // would otherwise be delivered. This runtime doesn't install a SIGPIPE
+    // handler, causing it to kill the program, which isn't exactly what we
+    // want!
+    //
+    // Hence, we set SIGPIPE to ignore when the program starts up in order
+    // to prevent this problem.
+    unsafe {
+        reset_sigpipe();
+    }
+
+    oom::set_oom_handler(oom_handler);
+
+    // A nicer handler for out-of-memory situations than the default one. This
+    // one prints a message to stderr before aborting. It is critical that this
+    // code does not allocate any memory since we are in an OOM situation. Any
+    // errors are ignored while printing since there's nothing we can do about
+    // them and we are about to exit anyways.
+    fn oom_handler() -> ! {
+        use core::intrinsics;
+        let msg = "fatal runtime error: out of memory\n";
+        unsafe {
+            libc::write(libc::STDERR_FILENO,
+                        msg.as_ptr() as *const libc::c_void,
+                        msg.len() as libc::size_t);
+            intrinsics::abort();
+        }
+    }
+
+    #[cfg(not(any(target_os = "nacl", target_os = "emscripten")))]
+    unsafe fn reset_sigpipe() {
+
+        assert!(::os::signal(libc::SIGPIPE, libc::SIG_IGN) != !0);
+    }
+    #[cfg(any(target_os = "nacl", target_os = "emscripten"))]
+    unsafe fn reset_sigpipe() {}
+}
+
+// Unix-specific stuff used by std::sys. Should become private eventually
+pub mod os {
+    #[cfg(target_os = "android")]
+    pub use android::signal;
+    #[cfg(not(target_os = "android"))]
+    pub use libc::signal;
+}

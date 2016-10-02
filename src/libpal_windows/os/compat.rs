@@ -22,8 +22,8 @@
 //! function is available but afterwards it's just a load and a jump.
 
 use ffi::CString;
-use sync::atomic::{AtomicUsize, Ordering};
-use sys::c;
+use core::sync::atomic::{AtomicUsize, Ordering};
+use os::c;
 
 pub fn lookup(module: &str, symbol: &str) -> Option<usize> {
     let mut module: Vec<u16> = module.encode_utf16().collect();
