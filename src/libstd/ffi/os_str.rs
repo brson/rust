@@ -488,18 +488,21 @@ impl AsRef<OsStr> for String {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<Buf> for OsString {
     fn from_inner(buf: Buf) -> OsString {
         OsString { inner: buf }
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<Buf> for OsString {
     fn into_inner(self) -> Buf {
         self.inner
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<Slice> for OsStr {
     fn as_inner(&self) -> &Slice {
         &self.inner

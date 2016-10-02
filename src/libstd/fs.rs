@@ -349,14 +349,17 @@ impl File {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<fs_imp::File> for File {
     fn as_inner(&self) -> &fs_imp::File { &self.inner }
 }
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<fs_imp::File> for File {
     fn from_inner(f: fs_imp::File) -> File {
         File { inner: f }
     }
 }
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<fs_imp::File> for File {
     fn into_inner(self) -> fs_imp::File {
         self.inner
@@ -606,6 +609,7 @@ impl OpenOptions {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInnerMut<fs_imp::OpenOptions> for OpenOptions {
     fn as_inner_mut(&mut self) -> &mut fs_imp::OpenOptions { &mut self.0 }
 }
@@ -798,6 +802,7 @@ impl Metadata {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<fs_imp::FileAttr> for Metadata {
     fn as_inner(&self) -> &fs_imp::FileAttr { &self.0 }
 }
@@ -908,16 +913,19 @@ impl FileType {
     pub fn is_symlink(&self) -> bool { self.0.is_symlink() }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<fs_imp::FileType> for FileType {
     fn as_inner(&self) -> &fs_imp::FileType { &self.0 }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<fs_imp::FilePermissions> for Permissions {
     fn from_inner(f: fs_imp::FilePermissions) -> Permissions {
         Permissions(f)
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<fs_imp::FilePermissions> for Permissions {
     fn as_inner(&self) -> &fs_imp::FilePermissions { &self.0 }
 }
@@ -1064,6 +1072,7 @@ impl fmt::Debug for DirEntry {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<fs_imp::DirEntry> for DirEntry {
     fn as_inner(&self) -> &fs_imp::DirEntry { &self.0 }
 }
@@ -1680,6 +1689,7 @@ impl DirBuilder {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInnerMut<fs_imp::DirBuilder> for DirBuilder {
     fn as_inner_mut(&mut self) -> &mut fs_imp::DirBuilder {
         &mut self.inner

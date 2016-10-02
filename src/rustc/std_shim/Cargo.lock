@@ -94,7 +94,6 @@ name = "pal_unix"
 version = "0.0.0"
 dependencies = [
  "core 0.0.0",
- "pal_common 0.0.0",
 ]
 
 [[package]]
@@ -105,7 +104,6 @@ dependencies = [
  "collections 0.0.0",
  "core 0.0.0",
  "libc 0.0.0",
- "pal_common 0.0.0",
 ]
 
 [[package]]

@@ -207,18 +207,21 @@ impl SocketAddrV6 {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<c::sockaddr_in> for SocketAddrV4 {
     fn from_inner(addr: c::sockaddr_in) -> SocketAddrV4 {
         SocketAddrV4 { inner: addr }
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<c::sockaddr_in6> for SocketAddrV6 {
     fn from_inner(addr: c::sockaddr_in6) -> SocketAddrV6 {
         SocketAddrV6 { inner: addr }
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl<'a> IntoInner<(*const c::sockaddr, c::socklen_t)> for &'a SocketAddr {
     fn into_inner(self) -> (*const c::sockaddr, c::socklen_t) {
         match *self {

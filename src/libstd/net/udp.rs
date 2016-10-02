@@ -334,14 +334,17 @@ impl UdpSocket {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<net_imp::UdpSocket> for UdpSocket {
     fn as_inner(&self) -> &net_imp::UdpSocket { &self.0 }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<net_imp::UdpSocket> for UdpSocket {
     fn from_inner(inner: net_imp::UdpSocket) -> UdpSocket { UdpSocket(inner) }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<net_imp::UdpSocket> for UdpSocket {
     fn into_inner(self) -> net_imp::UdpSocket { self.0 }
 }

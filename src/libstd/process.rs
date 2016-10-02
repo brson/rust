@@ -95,10 +95,12 @@ pub struct Child {
     pub stderr: Option<ChildStderr>,
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<imp::Process> for Child {
     fn as_inner(&self) -> &imp::Process { &self.handle }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<(imp::Process, imp::StdioPipes)> for Child {
     fn from_inner((handle, io): (imp::Process, imp::StdioPipes)) -> Child {
         Child {
@@ -110,6 +112,7 @@ impl FromInner<(imp::Process, imp::StdioPipes)> for Child {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<imp::Process> for Child {
     fn into_inner(self) -> imp::Process { self.handle }
 }
@@ -135,14 +138,17 @@ impl Write for ChildStdin {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<AnonPipe> for ChildStdin {
     fn as_inner(&self) -> &AnonPipe { &self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<AnonPipe> for ChildStdin {
     fn into_inner(self) -> AnonPipe { self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<AnonPipe> for ChildStdin {
     fn from_inner(pipe: AnonPipe) -> ChildStdin {
         ChildStdin { inner: pipe }
@@ -169,14 +175,17 @@ impl Read for ChildStdout {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<AnonPipe> for ChildStdout {
     fn as_inner(&self) -> &AnonPipe { &self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<AnonPipe> for ChildStdout {
     fn into_inner(self) -> AnonPipe { self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<AnonPipe> for ChildStdout {
     fn from_inner(pipe: AnonPipe) -> ChildStdout {
         ChildStdout { inner: pipe }
@@ -203,14 +212,17 @@ impl Read for ChildStderr {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<AnonPipe> for ChildStderr {
     fn as_inner(&self) -> &AnonPipe { &self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl IntoInner<AnonPipe> for ChildStderr {
     fn into_inner(self) -> AnonPipe { self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<AnonPipe> for ChildStderr {
     fn from_inner(pipe: AnonPipe) -> ChildStderr {
         ChildStderr { inner: pipe }
@@ -540,10 +552,12 @@ impl fmt::Debug for Command {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<imp::Command> for Command {
     fn as_inner(&self) -> &imp::Command { &self.inner }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInnerMut<imp::Command> for Command {
     fn as_inner_mut(&mut self) -> &mut imp::Command { &mut self.inner }
 }
@@ -608,6 +622,7 @@ impl Stdio {
     pub fn null() -> Stdio { Stdio(imp::Stdio::Null) }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<imp::Stdio> for Stdio {
     fn from_inner(inner: imp::Stdio) -> Stdio {
         Stdio(inner)
@@ -655,10 +670,12 @@ impl ExitStatus {
     }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl AsInner<imp::ExitStatus> for ExitStatus {
     fn as_inner(&self) -> &imp::ExitStatus { &self.0 }
 }
 
+#[unstable(feature = "pal", reason = "unstable", issue = "0")]
 impl FromInner<imp::ExitStatus> for ExitStatus {
     fn from_inner(s: imp::ExitStatus) -> ExitStatus {
         ExitStatus(s)
