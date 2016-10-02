@@ -336,6 +336,9 @@ extern crate alloc_system;
 // compiler-rt intrinsics
 extern crate compiler_builtins;
 
+// Common dependencies of the platform abstraction layer
+extern crate pal_common;
+
 // During testing, this crate is not actually the "real" std library, but rather
 // it links to the real std library, which was compiled from this same source
 // code. So any lang items std defines are conditionally excluded (or else they
@@ -422,6 +425,8 @@ pub use core_collections::string;
 pub use core_collections::vec;
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use rustc_unicode::char;
+#[stable(feature = "rust1", since = "1.0.0")]
+pub use pal_common::error;
 
 pub mod f32;
 pub mod f64;
@@ -431,7 +436,6 @@ pub mod thread;
 pub mod ascii;
 pub mod collections;
 pub mod env;
-pub mod error;
 pub mod ffi;
 pub mod fs;
 pub mod io;

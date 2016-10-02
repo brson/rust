@@ -72,7 +72,10 @@ dependencies = [
 name = "pal_common"
 version = "0.0.0"
 dependencies = [
+ "alloc 0.0.0",
+ "collections 0.0.0",
  "core 0.0.0",
+ "rustc_unicode 0.0.0",
 ]
 
 [[package]]
@@ -136,6 +139,7 @@ dependencies = [
  "core 0.0.0",
  "gcc 0.3.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.0.0",
+ "pal_common 0.0.0",
  "pal_unix 0.0.0",
  "pal_windows 0.0.0",
  "panic_abort 0.0.0",

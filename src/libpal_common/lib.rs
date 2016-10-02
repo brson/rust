@@ -23,4 +23,17 @@
 
 #![no_std]
 
+#![feature(alloc)]
+#![feature(collections)]
+#![feature(int_error_internals)]
+#![feature(reflect_marker)]
 #![feature(staged_api)]
+#![feature(try_borrow)]
+#![feature(try_from)]
+#![feature(unicode)]
+
+extern crate alloc;
+extern crate collections;
+extern crate rustc_unicode;
+
+pub mod error;
