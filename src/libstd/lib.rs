@@ -336,7 +336,7 @@ extern crate alloc_system;
 // compiler-rt intrinsics
 extern crate compiler_builtins;
 
-// Common dependencies of the platform abstraction layer
+// Common dependencies of the platform-abstraction layer
 extern crate pal_common;
 
 // During testing, this crate is not actually the "real" std library, but rather

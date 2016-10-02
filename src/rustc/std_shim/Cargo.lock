@@ -75,6 +75,7 @@ dependencies = [
  "alloc 0.0.0",
  "collections 0.0.0",
  "core 0.0.0",
+ "libc 0.0.0",
  "rustc_unicode 0.0.0",
 ]
 
