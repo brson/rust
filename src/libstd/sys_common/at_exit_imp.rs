@@ -34,7 +34,7 @@ pub fn cleanup() {
     unsafe { AT_EXIT.cleanup() }
 }
 
-static mut AT_EXIT: AtExit = AtExit::new();
+static mut AT_EXIT: AtExit<Mutex> = AtExit::new(Mutex::new());
 
 // The maximum number of times the cleanup routines will be run. While running
 // the at_exit closures new ones may be registered, and this count is the number
@@ -48,15 +48,15 @@ type Queue = Vec<Box<FnBox()>>;
 // on poisoning and this module needs to operate at a lower level than requiring
 // the thread infrastructure to be in place (useful on the borders of
 // initialization/destruction).
-struct AtExit {
-    lock: Mutex,
+struct AtExit<M> {
+    lock: M,
     queue: *mut Queue
 }
 
-impl AtExit {
-    pub const fn new() -> AtExit {
+impl<M: PMutex> AtExit<M> {
+    pub const fn new(mutex: M) -> AtExit<M> {
         AtExit {
-            lock: Mutex::new(),
+            lock: mutex,
             queue: ptr::null_mut()
         }
     }
@@ -114,3 +114,12 @@ impl AtExit {
     }
 }
 
+trait PMutex {
+    unsafe fn lock(&self);
+    unsafe fn unlock(&self);
+}
+
+impl PMutex for Mutex {
+    unsafe fn lock(&self) { Mutex::lock(self) }
+    unsafe fn unlock(&self) { Mutex::unlock(self) }
+}
