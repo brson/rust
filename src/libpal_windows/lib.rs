@@ -47,6 +47,7 @@ extern crate pal_common;
 extern crate rustc_unicode;
 
 pub mod args;
+pub mod at_exit;
 pub mod condvar;
 pub mod env;
 pub mod errno;

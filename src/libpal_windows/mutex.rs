@@ -35,6 +35,7 @@ use core::mem;
 use core::sync::atomic::{AtomicUsize, Ordering};
 use os::c;
 use os::compat;
+use pal_common::traits::PMutex;
 
 pub struct Mutex {
     lock: AtomicUsize,
@@ -186,4 +187,9 @@ impl ReentrantMutex {
     pub unsafe fn destroy(&self) {
         c::DeleteCriticalSection(self.inner.get());
     }
+}
+
+impl PMutex for Mutex {
+    unsafe fn lock(&self) { Mutex::lock(self) }
+    unsafe fn unlock(&self) { Mutex::unlock(self) }
 }

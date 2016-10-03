@@ -11,6 +11,7 @@
 use core::cell::UnsafeCell;
 use libc;
 use core::mem;
+use pal_common::traits::PMutex;
 
 pub struct Mutex { inner: UnsafeCell<libc::pthread_mutex_t> }
 
@@ -137,4 +138,9 @@ impl ReentrantMutex {
         let result = libc::pthread_mutex_destroy(self.inner.get());
         debug_assert_eq!(result, 0);
     }
+}
+
+impl PMutex for Mutex {
+    unsafe fn lock(&self) { Mutex::lock(self) }
+    unsafe fn unlock(&self) { Mutex::unlock(self) }
 }

@@ -38,6 +38,7 @@ extern crate libc;
 extern crate pal_common;
 
 pub mod args;
+pub mod at_exit;
 pub mod condvar;
 pub mod env;
 pub mod errno;

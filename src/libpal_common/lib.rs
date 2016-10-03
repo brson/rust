@@ -24,7 +24,10 @@
 #![no_std]
 
 #![feature(alloc)]
+#![feature(box_syntax)]
 #![feature(collections)]
+#![feature(const_fn)]
+#![feature(fnbox)]
 #![feature(fused)]
 #![feature(int_error_internals)]
 #![feature(reflect_marker)]
@@ -38,10 +41,12 @@ extern crate collections;
 extern crate rustc_unicode;
 
 pub mod ascii;
+pub mod at_exit;
 pub mod duration;
 pub mod error;
 pub mod io_error;
 pub mod memchr;
+pub mod traits;
 
 // common error constructors
 
