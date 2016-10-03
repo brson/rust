@@ -10,7 +10,7 @@
 
 #![allow(dead_code)] // not used on all platforms
 
-use mem;
+use core::mem;
 use libc;
 
 pub type Key = libc::pthread_key_t;

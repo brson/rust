@@ -25,11 +25,13 @@
 
 #![feature(alloc)]
 #![feature(asm)]
+#![feature(box_syntax)]
 #![feature(char_escape_debug)]
 #![feature(collections)]
 #![feature(const_fn)]
 #![feature(core_intrinsics)]
 #![feature(libc)]
+#![feature(linkage)]
 #![feature(pal)]
 #![feature(question_mark)]
 #![feature(repr_simd)]
@@ -55,6 +57,7 @@ pub mod memchr;
 pub mod mutex;
 pub mod os_str;
 pub mod rwlock;
+pub mod thread_local;
 
 // On Windows, use the processor-specific __fastfail mechanism.  In Windows 8
 // and later, this will terminate the process immediately without running any

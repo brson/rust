@@ -8,10 +8,14 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use ptr;
-use sys::c;
-use sys_common::mutex::Mutex;
-use sys_common;
+#![allow(bad_style)]
+
+use alloc::boxed::Box;
+use collections::Vec;
+use core::ptr;
+use os::c;
+use mutex::Mutex;
+use at_exit::AT_EXIT;
 
 pub type Key = c::DWORD;
 pub type Dtor = unsafe extern fn(*mut u8);
@@ -121,7 +125,7 @@ unsafe fn init_dtors() {
 
     let dtors = box Vec::<(Key, Dtor)>::new();
 
-    let res = sys_common::at_exit(move|| {
+    let res = AT_EXIT.at_exit(move|| {
         DTOR_LOCK.lock();
         let dtors = DTORS;
         DTORS = 1 as *mut _;

@@ -23,6 +23,7 @@ pub use pal::mutex;
 pub use pal::os::c;
 pub use pal::os_str;
 pub use pal::rwlock;
+pub use pal::thread_local;
 
 pub mod backtrace;
 pub mod dynamic_lib;
@@ -39,7 +40,6 @@ pub mod process;
 pub mod rand;
 pub mod stack_overflow;
 pub mod thread;
-pub mod thread_local;
 pub mod time;
 pub mod stdio;
 
