@@ -20,9 +20,9 @@ use core::num;
 #[cfg(not(test))]
 use intrinsics;
 #[cfg(not(test))]
-use libc::c_int;
-#[cfg(not(test))]
 use num::FpCategory;
+#[cfg(not(test))]
+use sys::f64 as imp;
 
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use core::f64::{RADIX, MANTISSA_DIGITS, DIGITS, EPSILON};
@@ -34,55 +34,6 @@ pub use core::f64::{MAX_10_EXP, NAN, INFINITY, NEG_INFINITY};
 pub use core::f64::{MIN, MIN_POSITIVE, MAX};
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use core::f64::consts;
-
-#[allow(dead_code)]
-mod cmath {
-    use libc::{c_double, c_int};
-
-    #[link_name = "m"]
-    extern {
-        pub fn acos(n: c_double) -> c_double;
-        pub fn asin(n: c_double) -> c_double;
-        pub fn atan(n: c_double) -> c_double;
-        pub fn atan2(a: c_double, b: c_double) -> c_double;
-        pub fn cbrt(n: c_double) -> c_double;
-        pub fn cosh(n: c_double) -> c_double;
-        pub fn erf(n: c_double) -> c_double;
-        pub fn erfc(n: c_double) -> c_double;
-        pub fn expm1(n: c_double) -> c_double;
-        pub fn fdim(a: c_double, b: c_double) -> c_double;
-        pub fn fmax(a: c_double, b: c_double) -> c_double;
-        pub fn fmin(a: c_double, b: c_double) -> c_double;
-        pub fn fmod(a: c_double, b: c_double) -> c_double;
-        pub fn frexp(n: c_double, value: &mut c_int) -> c_double;
-        pub fn ilogb(n: c_double) -> c_int;
-        pub fn ldexp(x: c_double, n: c_int) -> c_double;
-        pub fn logb(n: c_double) -> c_double;
-        pub fn log1p(n: c_double) -> c_double;
-        pub fn nextafter(x: c_double, y: c_double) -> c_double;
-        pub fn modf(n: c_double, iptr: &mut c_double) -> c_double;
-        pub fn sinh(n: c_double) -> c_double;
-        pub fn tan(n: c_double) -> c_double;
-        pub fn tanh(n: c_double) -> c_double;
-        pub fn tgamma(n: c_double) -> c_double;
-
-        // These are commonly only available for doubles
-
-        pub fn j0(n: c_double) -> c_double;
-        pub fn j1(n: c_double) -> c_double;
-        pub fn jn(i: c_int, n: c_double) -> c_double;
-
-        pub fn y0(n: c_double) -> c_double;
-        pub fn y1(n: c_double) -> c_double;
-        pub fn yn(i: c_int, n: c_double) -> c_double;
-
-        #[cfg_attr(all(windows, target_env = "msvc"), link_name = "__lgamma_r")]
-        pub fn lgamma_r(n: c_double, sign: &mut c_int) -> c_double;
-
-        #[cfg_attr(all(windows, target_env = "msvc"), link_name = "_hypot")]
-        pub fn hypot(x: c_double, y: c_double) -> c_double;
-    }
-}
 
 #[cfg(not(test))]
 #[lang = "f64"]
@@ -515,7 +466,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn ln(self) -> f64 {
-        self.log_wrapper(|n| { unsafe { intrinsics::logf64(n) } })
+        imp::log_wrapper(self, |n| { unsafe { intrinsics::logf64(n) } })
     }
 
     /// Returns the logarithm of the number with respect to an arbitrary base.
@@ -550,12 +501,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn log2(self) -> f64 {
-        self.log_wrapper(|n| {
-            #[cfg(target_os = "android")]
-            return ::sys::android::log2f64(n);
-            #[cfg(not(target_os = "android"))]
-            return unsafe { intrinsics::log2f64(n) };
-        })
+        imp::log2(self)
     }
 
     /// Returns the base 10 logarithm of the number.
@@ -571,7 +517,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn log10(self) -> f64 {
-        self.log_wrapper(|n| { unsafe { intrinsics::log10f64(n) } })
+        imp::log_wrapper(self, |n| { unsafe { intrinsics::log10f64(n) } })
     }
 
     /// Converts radians to degrees.
@@ -622,7 +568,7 @@ impl f64 {
                                  implementable outside the standard library")]
     #[inline]
     pub fn ldexp(x: f64, exp: isize) -> f64 {
-        unsafe { cmath::ldexp(x, exp as c_int) }
+        imp::ldexp(x, exp)
     }
 
     /// Breaks the number into a normalized fraction and a base-2 exponent,
@@ -652,11 +598,7 @@ impl f64 {
                                  implementable outside the standard library")]
     #[inline]
     pub fn frexp(self) -> (f64, isize) {
-        unsafe {
-            let mut exp = 0;
-            let x = cmath::frexp(self, &mut exp);
-            (x, exp as isize)
-        }
+        imp::frexp(self)
     }
 
     /// Returns the next representable floating-point value in the direction of
@@ -679,7 +621,7 @@ impl f64 {
                                  implementable outside the standard library")]
     #[inline]
     pub fn next_after(self, other: f64) -> f64 {
-        unsafe { cmath::nextafter(self, other) }
+        imp::next_after(self, other)
     }
 
     /// Returns the maximum of the two numbers.
@@ -695,7 +637,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn max(self, other: f64) -> f64 {
-        unsafe { cmath::fmax(self, other) }
+        imp::max(self, other)
     }
 
     /// Returns the minimum of the two numbers.
@@ -711,7 +653,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn min(self, other: f64) -> f64 {
-        unsafe { cmath::fmin(self, other) }
+        imp::min(self, other)
     }
 
     /// The positive difference of two numbers.
@@ -739,7 +681,7 @@ impl f64 {
                                  `fdim`, depending on how you wish to handle NaN (please consider \
                                  filing an issue describing your use-case too).")]
      pub fn abs_sub(self, other: f64) -> f64 {
-         unsafe { cmath::fdim(self, other) }
+         imp::abs_sub(self, other)
      }
 
     /// Takes the cubic root of a number.
@@ -755,7 +697,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn cbrt(self) -> f64 {
-        unsafe { cmath::cbrt(self) }
+        imp::cbrt(self)
     }
 
     /// Calculates the length of the hypotenuse of a right-angle triangle given
@@ -773,7 +715,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn hypot(self, other: f64) -> f64 {
-        unsafe { cmath::hypot(self, other) }
+        imp::hypot(self, other)
     }
 
     /// Computes the sine of a number (in radians).
@@ -823,7 +765,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn tan(self) -> f64 {
-        unsafe { cmath::tan(self) }
+        imp::tan(self)
     }
 
     /// Computes the arcsine of a number. Return value is in radians in
@@ -843,7 +785,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn asin(self) -> f64 {
-        unsafe { cmath::asin(self) }
+        imp::asin(self)
     }
 
     /// Computes the arccosine of a number. Return value is in radians in
@@ -863,7 +805,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn acos(self) -> f64 {
-        unsafe { cmath::acos(self) }
+        imp::acos(self)
     }
 
     /// Computes the arctangent of a number. Return value is in radians in the
@@ -880,7 +822,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn atan(self) -> f64 {
-        unsafe { cmath::atan(self) }
+        imp::atan(self)
     }
 
     /// Computes the four quadrant arctangent of `self` (`y`) and `other` (`x`).
@@ -912,7 +854,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn atan2(self, other: f64) -> f64 {
-        unsafe { cmath::atan2(self, other) }
+        imp::atan2(self, other)
     }
 
     /// Simultaneously computes the sine and cosine of the number, `x`. Returns
@@ -950,7 +892,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn exp_m1(self) -> f64 {
-        unsafe { cmath::expm1(self) }
+        imp::exp_m1(self)
     }
 
     /// Returns `ln(1+n)` (natural logarithm) more accurately than if
@@ -969,7 +911,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn ln_1p(self) -> f64 {
-        unsafe { cmath::log1p(self) }
+        imp::ln_1p(self)
     }
 
     /// Hyperbolic sine function.
@@ -990,7 +932,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn sinh(self) -> f64 {
-        unsafe { cmath::sinh(self) }
+        imp::sinh(self)
     }
 
     /// Hyperbolic cosine function.
@@ -1011,7 +953,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn cosh(self) -> f64 {
-        unsafe { cmath::cosh(self) }
+        imp::cosh(self)
     }
 
     /// Hyperbolic tangent function.
@@ -1032,7 +974,7 @@ impl f64 {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
     pub fn tanh(self) -> f64 {
-        unsafe { cmath::tanh(self) }
+        imp::tanh(self)
     }
 
     /// Inverse hyperbolic sine function.
@@ -1090,31 +1032,6 @@ impl f64 {
     #[inline]
     pub fn atanh(self) -> f64 {
         0.5 * ((2.0 * self) / (1.0 - self)).ln_1p()
-    }
-
-    // Solaris/Illumos requires a wrapper around log, log2, and log10 functions
-    // because of their non-standard behavior (e.g. log(-n) returns -Inf instead
-    // of expected NaN).
-    fn log_wrapper<F: Fn(f64) -> f64>(self, log_fn: F) -> f64 {
-        if !cfg!(target_os = "solaris") {
-            log_fn(self)
-        } else {
-            if self.is_finite() {
-                if self > 0.0 {
-                    log_fn(self)
-                } else if self == 0.0 {
-                    NEG_INFINITY // log(0) = -Inf
-                } else {
-                    NAN // log(-n) = NaN
-                }
-            } else if self.is_nan() {
-                self // log(NaN) = NaN
-            } else if self > 0.0 {
-                self // log(Inf) = Inf
-            } else {
-                NAN // log(-Inf) = NaN
-            }
-        }
     }
 }
 
