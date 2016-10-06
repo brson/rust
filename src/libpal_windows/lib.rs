@@ -62,6 +62,8 @@ pub mod os_str;
 pub mod rwlock;
 pub mod thread_local;
 
+mod util;
+
 // On Windows, use the processor-specific __fastfail mechanism.  In Windows 8
 // and later, this will terminate the process immediately without running any
 // in-process exception handlers.  In earlier versions of Windows, this
