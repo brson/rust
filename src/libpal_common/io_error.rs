@@ -8,6 +8,11 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use alloc::boxed::Box;
+use core::fmt;
+use core::result;
+use error;
+
 /// A list specifying general categories of I/O error.
 ///
 /// This list is intended to grow over time and it is not recommended to
@@ -105,4 +110,110 @@ pub enum ErrorKind {
                issue = "0")]
     #[doc(hidden)]
     __Nonexhaustive,
+}
+
+pub type Result<T> = result::Result<T, Error>;
+
+#[derive(Debug)]
+pub struct Error {
+    repr: Repr,
+}
+
+enum Repr {
+    Os(i32),
+    Custom(Box<Custom>),
+}
+
+#[derive(Debug)]
+struct Custom {
+    kind: ErrorKind,
+    error: Box<error::Error+Send+Sync>,
+}
+
+impl Error {
+    pub fn new<E>(kind: ErrorKind, error: E) -> Error
+        where E: Into<Box<error::Error+Send+Sync>>
+    {
+        Self::_new(kind, error.into())
+    }
+
+    fn _new(kind: ErrorKind, error: Box<error::Error+Send+Sync>) -> Error {
+        Error {
+            repr: Repr::Custom(Box::new(Custom {
+                kind: kind,
+                error: error,
+            }))
+        }
+    }
+
+    pub fn from_raw_os_error(code: i32) -> Error {
+        Error { repr: Repr::Os(code) }
+    }
+
+    pub fn raw_os_error(&self) -> Option<i32> {
+        match self.repr {
+            Repr::Os(i) => Some(i),
+            Repr::Custom(..) => None,
+        }
+    }
+
+    pub fn get_ref(&self) -> Option<&(error::Error+Send+Sync+'static)> {
+        match self.repr {
+            Repr::Os(..) => None,
+            Repr::Custom(ref c) => Some(&*c.error),
+        }
+    }
+
+    pub fn get_mut(&mut self) -> Option<&mut (error::Error+Send+Sync+'static)> {
+        match self.repr {
+            Repr::Os(..) => None,
+            Repr::Custom(ref mut c) => Some(&mut *c.error),
+        }
+    }
+
+    pub fn into_inner(self) -> Option<Box<error::Error+Send+Sync>> {
+        match self.repr {
+            Repr::Os(..) => None,
+            Repr::Custom(c) => Some(c.error)
+        }
+    }
+}
+
+impl fmt::Debug for Repr {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Repr::Os(ref code) =>
+                fmt.debug_struct("Os").field("code", code).finish(),
+            Repr::Custom(ref c) => fmt.debug_tuple("Custom").field(c).finish(),
+        }
+    }
+}
+
+#[stable(feature = "rust1", since = "1.0.0")]
+impl fmt::Display for Error {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match self.repr {
+            Repr::Os(code) => {
+                write!(fmt, "os error {}", code)
+            }
+            Repr::Custom(ref c) => c.error.fmt(fmt),
+        }
+    }
+}
+
+#[stable(feature = "rust1", since = "1.0.0")]
+impl error::Error for Error {
+    fn description(&self) -> &str {
+        match self.repr {
+            Repr::Os(..) => "os error",
+            Repr::Custom(ref c) => c.error.description(),
+        }
+    }
+
+    fn cause(&self) -> Option<&error::Error> {
+        match self.repr {
+            Repr::Os(..) => None,
+            Repr::Custom(ref c) => c.error.cause(),
+        }
+    }
 }
