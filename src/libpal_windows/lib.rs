@@ -37,6 +37,7 @@
 #![feature(repr_simd)]
 #![feature(slice_patterns)]
 #![feature(staged_api)]
+#![feature(stmt_expr_attributes)]
 #![feature(str_internals)]
 #![feature(unicode)]
 
@@ -53,6 +54,8 @@ pub mod at_exit;
 pub mod condvar;
 pub mod env;
 pub mod errno;
+pub mod f32;
+pub mod f64;
 pub mod memchr;
 pub mod mutex;
 pub mod os_str;

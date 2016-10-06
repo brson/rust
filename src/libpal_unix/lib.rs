@@ -30,6 +30,7 @@
 #![feature(libc)]
 #![feature(pal)]
 #![feature(staged_api)]
+#![feature(stmt_expr_attributes)]
 
 extern crate alloc;
 extern crate collections;
@@ -42,6 +43,8 @@ pub mod at_exit;
 pub mod condvar;
 pub mod env;
 pub mod errno;
+pub mod f32;
+pub mod f64;
 pub mod memchr;
 pub mod mutex;
 pub mod os_str;

@@ -30,6 +30,8 @@ use libc;
 pub use pal::args;
 pub use pal::condvar;
 pub use pal::env;
+pub use pal::f32;
+pub use pal::f64;
 pub use pal::memchr;
 pub use pal::mutex;
 pub use pal::os_str;
@@ -43,8 +45,6 @@ pub mod android;
 #[cfg(any(not(cargobuild), feature = "backtrace"))]
 pub mod backtrace;
 pub mod ext;
-pub mod f32;
-pub mod f64;
 pub mod fast_thread_local;
 pub mod fd;
 pub mod fs;
