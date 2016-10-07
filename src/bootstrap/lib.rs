@@ -615,6 +615,7 @@ impl Build {
         update.current_dir(&self.src)
               .arg("submodule")
               .arg("update")
+              .arg("--depth").arg("1")
               .arg(path);
         if update.status().unwrap().success() {
             return
