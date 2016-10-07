@@ -18,9 +18,10 @@
 //! LLVM and compiler-rt are essentially just wired up to everything else to
 //! ensure that they're always in place if needed.
 
+use std::fs::{self, File};
+use std::io::{Read, Write};
 use std::path::Path;
 use std::process::Command;
-use std::fs::{self, File};
 
 use build_helper::output;
 use cmake;
@@ -43,15 +44,17 @@ pub fn llvm(build: &Build, target: &str) {
     // artifacts are missing) then we keep going, otherwise we bail out.
     let dst = build.llvm_out(target);
     let stamp = build.src.join("src/rustllvm/llvm-auto-clean-trigger");
+    let mut stamp_contents = String::new();
+    t!(t!(File::open(&stamp)).read_to_string(&mut stamp_contents));
     let done_stamp = dst.join("llvm-finished-building");
-    println!("{:?}", done_stamp);
-    println!("{:?}", stamp);
-    println!("{:?}", ::util::mtime(&done_stamp));
-    println!("{:?}", ::util::mtime(&stamp));
-    build.clear_if_dirty(&done_stamp, &stamp);
-    if fs::metadata(&done_stamp).is_ok() {
-        return
+    if done_stamp.exists() {
+        let mut done_contents = String::new();
+        t!(t!(File::open(&done_stamp)).read_to_string(&mut done_contents));
+        if done_contents == stamp_contents {
+            return
+        }
     }
+    drop(fs::remove_dir_all(&dst));
 
     println!("Building LLVM for {}", target);
 
@@ -118,7 +121,7 @@ pub fn llvm(build: &Build, target: &str) {
     //        tools and libs on all platforms.
     cfg.build();
 
-    t!(File::create(&done_stamp));
+    t!(t!(File::create(&done_stamp)).write_all(stamp_contents.as_bytes()));
 }
 
 fn check_llvm_version(build: &Build, llvm_config: &Path) {
