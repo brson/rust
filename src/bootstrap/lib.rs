@@ -482,6 +482,7 @@ impl Build {
     fn update_submodules(&self) {
         struct Submodule<'a> {
             path: &'a Path,
+            rev: &'a str,
             state: State,
         }
 
@@ -512,6 +513,48 @@ impl Build {
             return cmd
         };
 
+        let submodule_update = |submodule: &Submodule| {
+            let url = output(git().arg("config")
+                                  .arg("-f").arg(".gitmodules")
+                                  .arg("--get")
+                                  .arg(format!("submodule.{}.url",
+                                               submodule.path.display())));
+            let branch = output(git().arg("config")
+                                     .arg("-f").arg(".gitmodules")
+                                     .arg("--get")
+                                     .arg(format!("submodule.{}.branch",
+                                                  submodule.path.display())));
+            self.run(git()
+                 .current_dir(self.src.join(submodule.path))
+                 .arg("fetch")
+                 .arg("--depth").arg("10")
+                 .arg(url.trim())
+                 .arg(branch.trim()));
+            self.run(git()
+                 .current_dir(self.src.join(submodule.path))
+                 .arg("reset")
+                 .arg("--hard")
+                 .arg(submodule.rev));
+            let mut update = git();
+            update.arg("submodule")
+                  .arg("update")
+                  .arg(submodule.path);
+            if update.status().unwrap().success() {
+                return
+            }
+
+            self.run(git()
+                 .current_dir(self.src.join(submodule.path))
+                 .arg("fetch")
+                 .arg("--depth").arg("1000000")
+                 .arg(url.trim())
+                 .arg(branch.trim()));
+            self.run(git()
+                  .arg("submodule")
+                  .arg("update")
+                  .arg(submodule.path));
+        };
+
         // FIXME: this takes a seriously long time to execute on Windows and a
         //        nontrivial amount of time on Unix, we should have a better way
         //        of detecting whether we need to run all the submodule commands
@@ -528,7 +571,9 @@ impl Build {
             // The first character can be '-', '+' or ' ' and denotes the `State` of the submodule
             // Right next to this character is the SHA-1 of the submodule HEAD
             // And after that comes the path to the submodule
-            let path = Path::new(line[1..].split(' ').skip(1).next().unwrap());
+            let mut parts = line[1..].split(' ');
+            let rev = parts.next().unwrap();;
+            let path = Path::new(parts.next().unwrap());
             let state = if line.starts_with('-') {
                 State::NotInitialized
             } else if line.starts_with('+') {
@@ -539,7 +584,7 @@ impl Build {
                 panic!("unexpected git submodule state: {:?}", line.chars().next());
             };
 
-            submodules.push(Submodule { path: path, state: state })
+            submodules.push(Submodule { path: path, state: state, rev: rev })
         }
 
         self.run(git_submodule().arg("sync"));
@@ -579,12 +624,12 @@ impl Build {
                 }
                 State::NotInitialized => {
                     self.run(git_submodule().arg("init").arg(submodule.path));
-                    self.submodule_update(&submodule.path);
+                    submodule_update(&submodule);
                 }
                 State::OutOfSync => {
                     // drops submodule commits that weren't reported to the
                     // (outer) git repository
-                    self.submodule_update(&submodule.path);
+                    submodule_update(&submodule);
                     self.run(git().current_dir(&submodule_path)
                                   .args(&["reset", "--hard"]));
                     self.run(git().current_dir(&submodule_path)
@@ -592,47 +637,6 @@ impl Build {
                 }
             }
         }
-    }
-
-    fn submodule_update(&self, path: &Path) {
-        let url = output(Command::new("git")
-                                 .arg("config")
-                                 .arg("-f").arg(self.src.join(".gitmodules"))
-                                 .arg("--get")
-                                 .arg(format!("submodule.{}.url", path.display())));
-        let branch = output(Command::new("git")
-                                 .arg("config")
-                                 .arg("-f").arg(self.src.join(".gitmodules"))
-                                 .arg("--get")
-                                 .arg(format!("submodule.{}.branch", path.display())));
-        self.run(Command::new("git")
-             .current_dir(self.src.join(path))
-             .arg("fetch")
-             .arg("--depth").arg("10")
-             .arg(url.trim())
-             .arg(branch.trim()));
-        let mut update = Command::new("git");
-        update.current_dir(&self.src)
-              .arg("submodule")
-              .arg("update")
-              .arg("--depth").arg("1")
-              .arg(path);
-        if update.status().unwrap().success() {
-            return
-        }
-
-        self.run(Command::new("git")
-             .current_dir(self.src.join(path))
-             .arg("fetch")
-             .arg("--depth").arg("1000000")
-             .arg(url.trim())
-             .arg(branch.trim()));
-        self.run(Command::new("git")
-              .current_dir(&self.src)
-              .arg("submodule")
-              .arg("update")
-              .arg(path));
-
     }
 
     /// Clear out `dir` if `input` is newer.

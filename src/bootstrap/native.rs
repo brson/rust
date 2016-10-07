@@ -44,6 +44,10 @@ pub fn llvm(build: &Build, target: &str) {
     let dst = build.llvm_out(target);
     let stamp = build.src.join("src/rustllvm/llvm-auto-clean-trigger");
     let done_stamp = dst.join("llvm-finished-building");
+    println!("{:?}", dst);
+    println!("{:?}", stamp);
+    println!("{:?}", ::util::mtime(&dst));
+    println!("{:?}", ::util::mtime(&stamp));
     build.clear_if_dirty(&dst, &stamp);
     if fs::metadata(&done_stamp).is_ok() {
         return
