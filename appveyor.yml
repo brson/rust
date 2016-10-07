@@ -16,7 +16,7 @@ install:
 
 test_script:
   - cp ci/config.toml config.toml
-  - python src/bootstrap/bootstrap.py
+  - python src/bootstrap/bootstrap.py --step llvm
     #- python src/bootstrap/bootstrap.py --step check
 
 # on_finish:
