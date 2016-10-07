@@ -1,19 +1,24 @@
 [submodule "src/llvm"]
 	path = src/llvm
-	url = https://github.com/rust-lang/llvm.git
-	branch = master
+	url = https://github.com/rust-lang/llvm
+	branch = rust-llvm-2016-07-09
 [submodule "src/compiler-rt"]
 	path = src/compiler-rt
-	url = https://github.com/rust-lang/compiler-rt.git
+	url = https://github.com/rust-lang/compiler-rt
+	branch = rust-llvm-2016-07-18
 [submodule "src/rt/hoedown"]
 	path = src/rt/hoedown
-	url = https://github.com/rust-lang/hoedown.git
+	url = https://github.com/rust-lang/hoedown
+	branch = rust-2015-09-21-do-not-delete
 [submodule "src/jemalloc"]
 	path = src/jemalloc
-	url = https://github.com/rust-lang/jemalloc.git
+	url = https://github.com/rust-lang/jemalloc
+	branch = rust-2016-02-25
 [submodule "src/rust-installer"]
 	path = src/rust-installer
-	url = https://github.com/rust-lang/rust-installer.git
+	url = https://github.com/rust-lang/rust-installer
+	branch = master
 [submodule "src/liblibc"]
 	path = src/liblibc
-	url = https://github.com/rust-lang/libc.git
+	url = https://github.com/rust-lang/libc
+	branch = master

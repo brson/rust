@@ -1,14 +1,26 @@
 environment:
   matrix:
   - TARGET: x86_64-pc-windows-msvc
-  - TARGET: i686-pc-windows-msvc
+    MSYS_BITS: 64
+  #- TARGET: i686-pc-windows-msvc
 
 clone_depth: 1
 build: false
 
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-test_script:
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# init:
+#   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
+install:
+  # put `make` and other msys tools into `PATH` so we can run the rmake tests
+  - set PATH=C:\msys64\mingw%MSYS_BITS%\bin;C:\msys64\usr\bin;%PATH%
+
+test_script:
+  - cp ci/config.toml config.toml
+  - python src/bootstrap/bootstrap.py
+  - python src/bootstrap/bootstrap.py --step check
+
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+cache:
+  - build/%TARGET%/llvm -> src/rustllvm/llvm-auto-clean-trigger

@@ -26,7 +26,6 @@ extern crate md5;
 extern crate num_cpus;
 extern crate rustc_serialize;
 extern crate toml;
-extern crate regex;
 
 use std::collections::HashMap;
 use std::env;
@@ -577,21 +576,62 @@ impl Build {
                     // drops unstaged changes
                     self.run(git().current_dir(&submodule_path)
                                   .args(&["clean", "-fdx"]));
-                },
+                }
                 State::NotInitialized => {
                     self.run(git_submodule().arg("init").arg(submodule.path));
-                    self.run(git_submodule().arg("update").arg(submodule.path));
-                },
+                    self.submodule_update(&submodule.path);
+                }
                 State::OutOfSync => {
-                    // drops submodule commits that weren't reported to the (outer) git repository
-                    self.run(git_submodule().arg("update").arg(submodule.path));
+                    // drops submodule commits that weren't reported to the
+                    // (outer) git repository
+                    self.submodule_update(&submodule.path);
                     self.run(git().current_dir(&submodule_path)
                                   .args(&["reset", "--hard"]));
                     self.run(git().current_dir(&submodule_path)
                                   .args(&["clean", "-fdx"]));
-                },
+                }
             }
         }
+    }
+
+    fn submodule_update(&self, path: &Path) {
+        let url = output(Command::new("git")
+                                 .arg("config")
+                                 .arg("-f").arg(self.src.join(".gitmodules"))
+                                 .arg("--get")
+                                 .arg(format!("submodule.{}.url", path.display())));
+        let branch = output(Command::new("git")
+                                 .arg("config")
+                                 .arg("-f").arg(self.src.join(".gitmodules"))
+                                 .arg("--get")
+                                 .arg(format!("submodule.{}.branch", path.display())));
+        self.run(Command::new("git")
+             .current_dir(self.src.join(path))
+             .arg("fetch")
+             .arg("--depth").arg("10")
+             .arg(url.trim())
+             .arg(branch.trim()));
+        let mut update = Command::new("git");
+        update.current_dir(&self.src)
+              .arg("submodule")
+              .arg("update")
+              .arg(path);
+        if update.status().unwrap().success() {
+            return
+        }
+
+        self.run(Command::new("git")
+             .current_dir(self.src.join(path))
+             .arg("fetch")
+             .arg("--depth").arg("1000000")
+             .arg(url.trim())
+             .arg(branch.trim()));
+        self.run(Command::new("git")
+              .current_dir(&self.src)
+              .arg("submodule")
+              .arg("update")
+              .arg(path));
+
     }
 
     /// Clear out `dir` if `input` is newer.
