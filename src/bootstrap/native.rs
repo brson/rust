@@ -54,9 +54,6 @@ pub fn llvm(build: &Build, target: &str) {
             return
         }
     }
-    if true {
-        return
-    }
     drop(fs::remove_dir_all(&dst));
 
     println!("Building LLVM for {}", target);
