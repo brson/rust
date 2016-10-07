@@ -514,41 +514,41 @@ impl Build {
         };
 
         let submodule_update = |submodule: &Submodule| {
-            let url = output(git().arg("config")
-                                  .arg("-f").arg(".gitmodules")
-                                  .arg("--get")
-                                  .arg(format!("submodule.{}.url",
-                                               submodule.path.display())));
-            let branch = output(git().arg("config")
-                                     .arg("-f").arg(".gitmodules")
-                                     .arg("--get")
-                                     .arg(format!("submodule.{}.branch",
-                                                  submodule.path.display())));
-            self.run(git()
-                 .current_dir(self.src.join(submodule.path))
-                 .arg("fetch")
-                 .arg("--depth").arg("10")
-                 .arg(url.trim())
-                 .arg(branch.trim()));
-            self.run(git()
-                 .current_dir(self.src.join(submodule.path))
-                 .arg("reset")
-                 .arg("--hard")
-                 .arg(submodule.rev));
-            let mut update = git();
-            update.arg("submodule")
-                  .arg("update")
-                  .arg(submodule.path);
-            if update.status().unwrap().success() {
-                return
-            }
-
-            self.run(git()
-                 .current_dir(self.src.join(submodule.path))
-                 .arg("fetch")
-                 .arg("--depth").arg("1000000")
-                 .arg(url.trim())
-                 .arg(branch.trim()));
+            // let url = output(git().arg("config")
+            //                       .arg("-f").arg(".gitmodules")
+            //                       .arg("--get")
+            //                       .arg(format!("submodule.{}.url",
+            //                                    submodule.path.display())));
+            // let branch = output(git().arg("config")
+            //                          .arg("-f").arg(".gitmodules")
+            //                          .arg("--get")
+            //                          .arg(format!("submodule.{}.branch",
+            //                                       submodule.path.display())));
+            // self.run(git()
+            //      .current_dir(self.src.join(submodule.path))
+            //      .arg("fetch")
+            //      .arg("--depth").arg("10")
+            //      .arg(url.trim())
+            //      .arg(branch.trim()));
+            // self.run(git()
+            //      .current_dir(self.src.join(submodule.path))
+            //      .arg("reset")
+            //      .arg("--hard")
+            //      .arg(submodule.rev));
+            // let mut update = git();
+            // update.arg("submodule")
+            //       .arg("update")
+            //       .arg(submodule.path);
+            // if update.status().unwrap().success() {
+            //     return
+            // }
+            //
+            // self.run(git()
+            //      .current_dir(self.src.join(submodule.path))
+            //      .arg("fetch")
+            //      .arg("--depth").arg("1000000")
+            //      .arg(url.trim())
+            //      .arg(branch.trim()));
             self.run(git()
                   .arg("submodule")
                   .arg("update")
