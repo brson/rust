@@ -3,6 +3,7 @@ environment:
   - TARGET: x86_64-pc-windows-msvc
   - TARGET: i686-pc-windows-msvc
 
+clone_depth: 1
 build: false
 
 init:
