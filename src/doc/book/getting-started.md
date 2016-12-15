@@ -26,7 +26,7 @@ see the website][platform-support].
 
 ## Installing Rust
 
-All we need to do on On Unix systems like Linux and macOS is open a
+All you need to do on Unix systems like Linux and macOS is open a
 terminal and type this:
 
 ```bash
@@ -42,8 +42,10 @@ Rust is installed now. Great!
 
 Installing on Windows is nearly as easy: download and run
 [rustup-init.exe]. It will run the installation in a console and
-present the above message on success. For other installation options
-and information, visit the [install] page of the Rust website.
+present the above message on success.
+
+For other installation options and information, visit the [install]
+page of the Rust website.
 
 [rustup-init.exe]: https://win.rustup.rs
 [install]: https://www.rust-lang.org/install.html
@@ -75,9 +77,8 @@ Rust development tools live, and most Rust developers keep it in their
 `PATH` environment variable, which makes it possible to run `rustc` on
 the command line. Due to differences in operating systems, command
 shells, and bugs in installation, you may need to restart your shell,
-log out of the system, or configure `PATH` manually. If necessary,
-configure your `PATH` variable as appropriate for your operating
-environment.
+log out of the system, or configure `PATH` manually as appropriate for
+your operating environment.
 
 Rust does not do its own linking, and so you’ll need to have a linker
 installed. Doing so will depend on your specific system. For
