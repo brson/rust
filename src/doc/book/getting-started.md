@@ -33,7 +33,7 @@ terminal and type this:
 $ curl https://sh.rustup.rs -sSf | sh
 ```
 
-That will download a script, and start the installation. If it all
+It will download a script, and start the installation. If everything
 goes well, you’ll see this appear:
 
 ```text
@@ -41,7 +41,7 @@ Rust is installed now. Great!
 ```
 
 Installing on Windows is nearly as easy: download and run
-[rustup-init.exe]. It will run the installation in a console and
+[rustup-init.exe]. It will start the installation in a console and
 present the above message on success.
 
 For other installation options and information, visit the [install]
