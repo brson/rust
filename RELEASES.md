@@ -4,6 +4,7 @@ Version 1.16.0 (2017-03-16)
 Language
 --------
 
+* Lifetimes in statics ad consts default to `'static`. [RFC 1623]
 * [The compiler's `dead_code` lint now accounts for type aliases][38051].
 * [Uninhabitable enums (those without any variants) no longer permit wildcard
   match patterns][38069]
@@ -175,6 +176,7 @@ Compatibility Notes
 [cargo/3546]: https://github.com/rust-lang/cargo/pull/3546
 [cargo/3557]: https://github.com/rust-lang/cargo/pull/3557
 [cargo/3604]: https://github.com/rust-lang/cargo/pull/3604
+[RFC 1623]: https://github.com/rust-lang/rfcs/blob/master/text/1623-static.md
 
 
 Version 1.15.1 (2017-02-09)
