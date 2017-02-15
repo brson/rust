@@ -4,7 +4,7 @@ Version 1.16.0 (2017-03-16)
 Language
 --------
 
-* Lifetimes in statics ad consts default to `'static`. [RFC 1623]
+* Lifetimes in statics and consts default to `'static`. [RFC 1623]
 * [The compiler's `dead_code` lint now accounts for type aliases][38051].
 * [Uninhabitable enums (those without any variants) no longer permit wildcard
   match patterns][38069]
@@ -19,10 +19,14 @@ Compiler
   a `.rmeta` file containing only crate metadata][38571]. This can be
   used by tools like the Rust Language Service to perform
   metadata-only builds.
+* [Levenshtein based typo suggestions now work in most places, while
+  previously they worked only for fields and sometimes for local
+  variables][38927]. Together with the overhaul of "no
+  resolution"/"unexpected resolution" errors (#[38154]) they result in
+  large and systematic improvement in resolution diagnostics.
 * [Fix `transmute::<T, U>` where `T` requires a bigger alignment than
   `U`][38670]
 * [rustc: use -Xlinker when specifying an rpath with ',' in it][38798]
-* [Candidates for type suggestions draw from more sources][38927]
 * [`rustc` no longer attempts to provide "consider using an explicit
   lifetime" suggestions][37057]. They were inaccurate.
 
@@ -57,7 +61,7 @@ Libraries
 * [`[T]::binary_search` and `[T]::binary_search_by_key` now take
   their argument by `Borrow` parameter][37761]
 * [All public types in std implement `Debug`][38006]
-* [`IpAddr` implements `From<Ipv4Adder>` and `From<Ipv6Addr>`][38327]
+* [`IpAddr` implements `From<Ipv4Addr>` and `From<Ipv6Addr>`][38327]
 * [`Ipv6Addr` implements `From<[u16; 8]>`][38131]
 * [Ctrl-Z returns from `Stdin.read()` when reading from the console on
   Windows][38274]
@@ -81,15 +85,15 @@ Cargo
 
 * [crates.io will display CI badges from Travis and AppVeyor, if
   specified in Cargo.toml][cargo/3546]
-* [crates.io will display categories listen in Cargo.toml][cargo/3301]
+* [crates.io will display categories listed in in Cargo.toml][cargo/3301]
 * [Compilation profiles accept integer values for `debug`, in addition
   to `true` and `false`. These are passed to `rustc` as the value to
   `-C debuginfo`][cargo/3534]
 * [Implement `cargo --version --verbose`][cargo/3604]
-* [`Add `--dep-info` flag to output build dependencies compatible with
+* [All builds now output 'dep-info' build dependencies compatible with
   make and ninja][cargo/3557]
 * [Build all workspace members with `build --all`][cargo/3511]
-* [Document all workspace members with `document --all`][cargo/3515]
+* [Document all workspace members with `doc --all`][cargo/3515]
 * [Path deps outside workspace are not members][cargo/3443]
 
 Misc
@@ -125,7 +129,8 @@ Compatibility Notes
 [38066]: https://github.com/rust-lang/rust/pull/38066
 [38069]: https://github.com/rust-lang/rust/pull/38069
 [38131]: https://github.com/rust-lang/rust/pull/38131
-[38274]: https://github.com/rust-lang/rust/pull/
+[38154]: https://github.com/rust-lang/rust/pull/38154
+[38274]: https://github.com/rust-lang/rust/pull/38274
 [38304]: https://github.com/rust-lang/rust/pull/38304
 [38313]: https://github.com/rust-lang/rust/pull/38313
 [38314]: https://github.com/rust-lang/rust/pull/38314
