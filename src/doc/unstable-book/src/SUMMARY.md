@@ -109,7 +109,6 @@
     - [collection_placement](library-features/collection-placement.md)
     - [collections_range](library-features/collections-range.md)
     - [collections](library-features/collections.md)
-    - [command_envs](library-features/command-envs.md)
     - [compiler_builtins_lib](library-features/compiler-builtins-lib.md)
     - [compiler_fences](library-features/compiler-fences.md)
     - [concat_idents_macro](library-features/concat-idents-macro.md)
